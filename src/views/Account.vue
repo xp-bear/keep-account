@@ -20,8 +20,8 @@
     <van-number-keyboard v-model="value" title="金额数字键盘" extra-key="." :show="money_show" :maxlength="6" @blur="money_show = false" />
 
     <!-- 选择日期 -->
-    <van-field class="clander" label="日期:" placeholder="请选择日期!" label-width="0.8rem" :value="date" @click="calendar_show = true" />
-    <van-calendar v-model="calendar_show" color="#1bb5fe" @confirm="onConfirm" />
+    <van-field class="clander" label="日期:" placeholder="请选择日期!" label-width="0.8rem" :value="date" @click="getCalendar" />
+    <van-calendar v-model="calendar_show" :min-date="minDate" color="#1bb5fe" @confirm="onConfirm" />
 
     <!-- 选择时间 -->
     <van-field class="clander" label="时间:" placeholder="请选择时间!" label-width="0.8rem" :value="currentTime" @click="toGetTime" />
@@ -59,12 +59,20 @@ export default {
       calendar_show: false, //日期显示
       time_show: false,
       currentTime: "", //当前时间
+      minDate: new Date(), //最小选择的时间
     };
   },
   mounted() {
-    // let date = new Date();
-    // // 获取到当前的时间
-    // this.onConfirm(date);
+    let time = new Date();
+    // 获取年
+    let year = time.getFullYear();
+    // 获取月份
+    let month = time.getMonth();
+    // 获取天数
+    let day = time.getDate();
+
+    // console.log(year, month, day); //日期显示
+    this.minDate = new Date(year, month - 1, day);
   },
   methods: {
     // 格式化日期
@@ -75,7 +83,7 @@ export default {
     onConfirm(date) {
       this.calendar_show = false;
       this.date = this.formatDate(date);
-      console.log("记账日期: ", this.date);
+      // console.log("记账日期: ", this.date);
     },
     timeConfirm() {
       console.log(11);
@@ -97,6 +105,10 @@ export default {
 
       this.time_show = true;
       this.currentTime = "" + hours + ":" + minutes;
+    },
+    //获取日期
+    getCalendar() {
+      this.calendar_show = true;
     },
   },
   // 过滤器

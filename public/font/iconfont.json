@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "3161425",
+      "name": "管理员_管理员列表",
+      "font_class": "guanliyuan_guanliyuanliebiao",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "4772826",
+      "name": "平台管理—角色管理",
+      "font_class": "pingtaiguanlijiaoseguanli",
+      "unicode": "e64c",
+      "unicode_decimal": 58956
+    },
+    {
+      "icon_id": "4772835",
+      "name": "平台管理—用户管理",
+      "font_class": "pingtaiguanliyonghuguanli",
+      "unicode": "e64e",
+      "unicode_decimal": 58958
+    },
+    {
+      "icon_id": "5064085",
+      "name": "管理",
+      "font_class": "guanli",
+      "unicode": "e640",
+      "unicode_decimal": 58944
+    },
+    {
+      "icon_id": "24161344",
+      "name": "后台管理-档案管理",
+      "font_class": "houtaiguanli-danganguanli",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    },
+    {
       "icon_id": "1305451",
       "name": "标签",
       "font_class": "biaoqian",

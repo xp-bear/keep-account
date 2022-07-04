@@ -3,6 +3,7 @@
     <div class="iconfont icon-biaoqian footer" :class="current_index == 0 ? 'active' : ''" @click="redirectPage(0)"></div>
     <div class="iconfont icon-jinqian footer" :class="current_index == 1 ? 'active' : ''" @click="redirectPage(1)"></div>
     <div class="iconfont icon-tongji1 footer" :class="current_index == 2 ? 'active' : ''" @click="redirectPage(2)"></div>
+    <div class="iconfont icon-guanliyuan_guanliyuanliebiao footer" :class="current_index == 3 ? 'active' : ''" @click="redirectPage(3)"></div>
   </div>
 </template>
 
@@ -15,12 +16,12 @@ export default {
     };
   },
   mounted() {
-    this.redirectPage(2); //默认加载的是记账页面
+    this.redirectPage(1); //默认加载的是记账页面
   },
   methods: {
     // 跳转每一个tab栏
     redirectPage(index) {
-      console.log("当前页面tab栏: ", index);
+      // console.log("当前页面tab栏: ", index);
       this.current_index = index;
 
       //   页面切换
@@ -33,6 +34,9 @@ export default {
       } else if (index == 2) {
         this.$router.push({ path: "/statistics" });
         this.current_index = 2;
+      } else if (index == 3) {
+        this.$router.push({ path: "/user" });
+        this.current_index = 3;
       }
     },
   },
