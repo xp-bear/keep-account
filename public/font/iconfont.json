@@ -1,0 +1,93 @@
+{
+  "id": "2824888",
+  "name": "记账demo",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1305451",
+      "name": "标签",
+      "font_class": "biaoqian",
+      "unicode": "e63d",
+      "unicode_decimal": 58941
+    },
+    {
+      "icon_id": "5064096",
+      "name": "统计",
+      "font_class": "tongji",
+      "unicode": "e646",
+      "unicode_decimal": 58950
+    },
+    {
+      "icon_id": "5838475",
+      "name": "统计",
+      "font_class": "tongji1",
+      "unicode": "e856",
+      "unicode_decimal": 59478
+    },
+    {
+      "icon_id": "5838820",
+      "name": "统计",
+      "font_class": "tongji2",
+      "unicode": "e878",
+      "unicode_decimal": 59512
+    },
+    {
+      "icon_id": "7542757",
+      "name": "24gf-tags",
+      "font_class": "24gf-tags",
+      "unicode": "e885",
+      "unicode_decimal": 59525
+    },
+    {
+      "icon_id": "12889878",
+      "name": "统计分析-常规统计",
+      "font_class": "tongjifenxi-changguitongji",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "16364328",
+      "name": "统计",
+      "font_class": "tongji3",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    },
+    {
+      "icon_id": "4933350",
+      "name": "金钱",
+      "font_class": "jinqian",
+      "unicode": "e73b",
+      "unicode_decimal": 59195
+    },
+    {
+      "icon_id": "1079472",
+      "name": "记账本",
+      "font_class": "jizhangben",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
+      "icon_id": "15388666",
+      "name": "流水号管理",
+      "font_class": "liushuihaoguanli",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    },
+    {
+      "icon_id": "15392648",
+      "name": "分析2",
+      "font_class": "fenxi2",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "17874708",
+      "name": "更多",
+      "font_class": "gengduo",
+      "unicode": "e61f",
+      "unicode_decimal": 58911
+    }
+  ]
+}
