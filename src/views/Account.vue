@@ -5,15 +5,23 @@
 
     <!-- 轮播图 -->
     <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-      <van-swipe-item>1</van-swipe-item>
-      <van-swipe-item>2</van-swipe-item>
-      <van-swipe-item>3</van-swipe-item>
-      <van-swipe-item>4</van-swipe-item>
+      <van-swipe-item>
+        <img src="//m15.360buyimg.com/mobilecms/s1062x420_jfs/t1/102522/29/23302/471300/621f1a74Ee5eb33e3/6b996cd7a38e97f5.png!cr_1053x420_4_0!q70.jpg" alt="" />
+      </van-swipe-item>
+      <van-swipe-item>
+        <img src="//m15.360buyimg.com/mobilecms/jfs/t1/108595/21/17303/262085/5eb8badbE63787505/7467da98b3f3dacb.jpg!cr_1125x449_0_166!q70.jpg" alt="" />
+      </van-swipe-item>
+      <van-swipe-item>
+        <img src="//m15.360buyimg.com/mobilecms/s1062x420_jfs/t1/102522/29/23302/471300/621f1a74Ee5eb33e3/6b996cd7a38e97f5.png!cr_1053x420_4_0!q70.jpg" alt="" />
+      </van-swipe-item>
+      <van-swipe-item>
+        <img src="//m15.360buyimg.com/mobilecms/jfs/t1/108595/21/17303/262085/5eb8badbE63787505/7467da98b3f3dacb.jpg!cr_1125x449_0_166!q70.jpg" alt="" />
+      </van-swipe-item>
     </van-swipe>
     <!-- 收入与支出选项 -->
     <div class="income">
-      <van-button type="primary" color="#1bb5fe" :plain="false" block size="small">支出</van-button>
-      <van-button type="primary" color="#1bb5fe" :plain="true" block size="small">收入</van-button>
+      <van-button type="primary" color="#1bb5fe" :plain="incomeState" block size="small" @click="switchChangeIncome('支出')">支出</van-button>
+      <van-button type="primary" color="#1bb5fe" :plain="!incomeState" block size="small" @click="switchChangeIncome('收入')">收入</van-button>
     </div>
     <!-- 金额 -->
     <van-field class="money" placeholder="请输入金额!" label="金额:" label-width="0.8rem" readonly clickable :value="value | valueForamte" @touchstart.native.stop="money_show = true" />
@@ -60,6 +68,7 @@ export default {
       time_show: false,
       currentTime: "", //当前时间
       minDate: new Date(), //最小选择的时间
+      incomeState: false, //当前收入与支出的状态
     };
   },
   mounted() {
@@ -110,6 +119,14 @@ export default {
     getCalendar() {
       this.calendar_show = true;
     },
+    //收入与支出切换
+    switchChangeIncome(value) {
+      if (value == "收入") {
+        this.incomeState = true;
+      } else {
+        this.incomeState = false;
+      }
+    },
   },
   // 过滤器
   filters: {
@@ -127,6 +144,10 @@ export default {
 <style lang="less" scoped>
 .Account {
   .van-submit-bar {
+    width: 7.5rem;
+    margin: 0 auto;
+    left: 50%;
+    transform: translate(-50%);
     bottom: 1.12rem;
   }
   .van-submit-bar__button {
@@ -173,8 +194,13 @@ export default {
     color: #fff;
     font-size: 0.4rem;
     line-height: 3rem;
+    height: 3rem;
     text-align: center;
-    background-color: #39a9ed;
+    // background-color: #39a9ed;
+    img {
+      // width: 7.5rem;
+      height: 3rem;
+    }
   }
 }
 </style>
