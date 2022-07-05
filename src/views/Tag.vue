@@ -1,5 +1,5 @@
 <template>
-  <div class="Home">
+  <div class="Tag">
     <!-- 标题选项 -->
     <div class="income">
       <van-button type="primary" color="#1bb5fe" :plain="false" block size="small">支出</van-button>
@@ -43,7 +43,7 @@
 // import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
-  name: "Home",
+  name: "Tag",
   components: {},
   data() {
     return {
@@ -53,7 +53,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.Home {
+.Tag {
   .income {
     display: flex;
     .van-button {

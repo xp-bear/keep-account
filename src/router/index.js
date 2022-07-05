@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import Tag from "../views/Tag.vue";
 
 Vue.use(VueRouter);
 
@@ -13,8 +13,12 @@ VueRouter.prototype.push = function push(location) {
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Home,
+    redirect: "/tag",
+  },
+  {
+    path: "/tag",
+    name: "Tag",
+    component: Tag,
   },
   {
     path: "/account",
