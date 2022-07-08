@@ -11,28 +11,17 @@
       <van-collapse-item name="1" icon="shop-o">
         <template #title>
           <div style="display: flex; justify-content: space-between">
-            <span>2022/7/3</span><span>总消费:<van-icon name="balance-o" /> 50</span>
+            <span>{{ date }}</span>
+            <span>总消费:<van-icon name="balance-o" /> {{ totalMoney }}</span>
           </div>
         </template>
         <ul class="detail">
-          <li><span>服饰鞋帽</span><span>17:00</span><span>暂无留言</span><span>¥20</span></li>
-          <li><span>交通出行</span><span>17:00</span><span>暂无留言</span><span>¥20000</span></li>
-          <li><span>服饰鞋帽</span><span>17:00</span><span>自己买衣服</span><span>¥20</span></li>
-        </ul>
-      </van-collapse-item>
-    </van-collapse>
-
-    <van-collapse v-model="activeNames">
-      <van-collapse-item name="2" icon="shop-o">
-        <template #title>
-          <div style="display: flex; justify-content: space-between">
-            <span>2022/7/3</span><span>总消费:<van-icon name="balance-o" /> 50</span>
-          </div>
-        </template>
-        <ul class="detail">
-          <li><span>服饰鞋帽</span><span>17:00</span><span>暂无留言</span><span>¥20</span></li>
-          <li><span>交通出行</span><span>17:00</span><span>暂无留言</span><span>¥20000</span></li>
-          <li><span>服饰鞋帽</span><span>17:00</span><span>自己买衣服</span><span>¥20</span></li>
+          <li v-for="item in datas" :key="item.id">
+            <span>{{ item.tag }}</span>
+            <span>{{ item.time }}</span>
+            <span>{{ item.comment }}</span>
+            <span>¥{{ item.money }}</span>
+          </li>
         </ul>
       </van-collapse-item>
     </van-collapse>
@@ -45,9 +34,24 @@
 export default {
   name: "Tag",
   components: {},
+  mounted() {
+    this.$axios.get("/account/everyday").then((res) => {
+      // console.log(res.data);
+      // this.date = res.data[0].date;
+      this.datas = res.data;
+      console.log(this.datas);
+      this.date = this.$dayjs(res.data[0].date).format("YYYY-MM-DD"); //处理时间格式
+      res.data.forEach((item) => {
+        this.totalMoney += +item.money;
+      });
+    });
+  },
   data() {
     return {
       activeNames: ["1"],
+      totalMoney: 0, //使用的金额
+      date: null, //日期
+      datas: [], //每一天的消费
     };
   },
 };
@@ -78,10 +82,10 @@ export default {
           width: 20%;
         }
         &:nth-child(2) {
-          width: 15%;
+          width: 20%;
         }
         &:nth-child(3) {
-          width: 50%;
+          width: 45%;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;

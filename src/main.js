@@ -2,6 +2,10 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import axios from "axios";
+import * as dayjs from "dayjs";
+import * as isLeapYear from "dayjs/plugin/isLeapYear"; // import plugin
+import "dayjs/locale/zh-cn"; // import locale
 
 import { Button } from "vant";
 import { Field } from "vant";
@@ -35,11 +39,19 @@ Vue.use(NumberKeyboard);
 Vue.use(Tag);
 Vue.use(Field);
 Vue.use(Button);
-Vue.prototype.$toast = Toast;
 
+Vue.prototype.$dayjs = dayjs;
+Vue.prototype.$toast = Toast;
+Vue.prototype.$axios = axios;
+
+dayjs.extend(isLeapYear); // use plugin
+dayjs.locale("zh-cn"); // use locale
 // 引入echarts
 import * as echarts from "echarts";
 Vue.prototype.$echarts = echarts;
+
+//配置默认IP地址
+axios.defaults.baseURL = "http://localhost:9999";
 
 // 引入reset.css
 import "./assets/css/reset.css";
