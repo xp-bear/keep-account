@@ -1,6 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Tag from "../views/Tag.vue";
 
 Vue.use(VueRouter);
 
@@ -18,7 +17,7 @@ const routes = [
   {
     path: "/tag",
     name: "Tag",
-    component: Tag,
+    component: () => import(/* webpackChunkName: "tag" */ "../views/Tag.vue"),
   },
   {
     path: "/account",

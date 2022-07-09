@@ -17,7 +17,7 @@
         </template>
         <ul class="detail">
           <li v-for="item in datas" :key="item.id">
-            <span>{{ item.tag }}</span>
+            <span>{{ item.tag | tagValue }}</span>
             <span>{{ item.time }}</span>
             <span>{{ item.comment }}</span>
             <span>¥{{ item.money }}</span>
@@ -39,8 +39,8 @@ export default {
       // console.log(res.data);
       // this.date = res.data[0].date;
       this.datas = res.data;
-      console.log(this.datas);
-      this.date = this.$dayjs(res.data[0].date).format("YYYY-MM-DD"); //处理时间格式
+      // console.log(this.datas);
+      this.date = this.$dayjs(res.data[0]?.date).format("YYYY-MM-DD"); //处理时间格式
       res.data.forEach((item) => {
         this.totalMoney += +item.money;
       });
@@ -53,6 +53,36 @@ export default {
       date: null, //日期
       datas: [], //每一天的消费
     };
+  },
+  filters: {
+    // 标签过滤器
+    tagValue(value) {
+      let tag = "";
+      switch (value) {
+        case 0:
+          tag = "服饰鞋帽";
+          break;
+        case 1:
+          tag = "交通出行";
+          break;
+        case 2:
+          tag = "食物小吃";
+          break;
+        case 3:
+          tag = "学习提升";
+          break;
+        case 4:
+          tag = "外出旅行";
+          break;
+        case 5:
+          tag = "娱乐消费";
+          break;
+        case 6:
+          tag = "其他项目";
+          break;
+      }
+      return tag;
+    },
   },
 };
 </script>
@@ -92,6 +122,7 @@ export default {
         }
         &:nth-child(4) {
           width: 15%;
+          padding-left: 0.1rem;
         }
       }
     }
