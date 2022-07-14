@@ -20,8 +20,8 @@
     </van-swipe>
     <!-- 收入与支出选项 -->
     <div class="income">
-      <van-button type="primary" color="#1bb5fe" :plain="incomeState" block size="small" @click="switchChangeIncome('支出')">支出</van-button>
-      <van-button type="primary" color="#1bb5fe" :plain="!incomeState" block size="small" @click="switchChangeIncome('收入')">收入</van-button>
+      <van-button type="primary" color="#1bb5fe" :plain="!Boolean(incomeState == 0)" block size="small" @click="switchChangeIncome(0)">支出</van-button>
+      <van-button type="primary" color="#1bb5fe" :plain="!Boolean(incomeState == 1)" block size="small" @click="switchChangeIncome(1)">收入</van-button>
     </div>
     <!-- 金额 -->
     <van-field class="money" placeholder="请输入金额!" label="金额:" label-width="0.8rem" readonly clickable :value="value | valueForamte" @touchstart.native.stop="money_show = true" />
@@ -41,13 +41,13 @@
     <van-field v-model="message" label-width="0.8rem" rows="3" label="备注:" type="textarea" maxlength="50" placeholder="请输入备注!" show-word-limit />
     <!-- 标签选项 -->
     <div class="tags">
-      <van-tag type="primary" color="#1bb5fe" size="large" :plain="true">服饰鞋帽</van-tag>
-      <van-tag type="primary" color="#1bb5fe" size="large" :plain="true">交通出行</van-tag>
-      <van-tag type="primary" color="#1bb5fe" size="large" :plain="false">食物小吃</van-tag>
-      <van-tag type="primary" color="#1bb5fe" size="large" :plain="true">学习提升</van-tag>
-      <van-tag type="primary" color="#1bb5fe" size="large" :plain="true">外出旅行</van-tag>
-      <van-tag type="primary" color="#1bb5fe" size="large" :plain="true">娱乐消费</van-tag>
-      <van-tag type="primary" color="#1bb5fe" size="large" :plain="true">其他项目</van-tag>
+      <van-tag type="primary" color="#1bb5fe" size="large" :plain="!Boolean(tag_index == 0)" @click="changeTag(0)">服饰鞋帽</van-tag>
+      <van-tag type="primary" color="#1bb5fe" size="large" :plain="!Boolean(tag_index == 1)" @click="changeTag(1)">交通出行</van-tag>
+      <van-tag type="primary" color="#1bb5fe" size="large" :plain="!Boolean(tag_index == 2)" @click="changeTag(2)">食物小吃</van-tag>
+      <van-tag type="primary" color="#1bb5fe" size="large" :plain="!Boolean(tag_index == 3)" @click="changeTag(3)">学习提升</van-tag>
+      <van-tag type="primary" color="#1bb5fe" size="large" :plain="!Boolean(tag_index == 4)" @click="changeTag(4)">外出旅行</van-tag>
+      <van-tag type="primary" color="#1bb5fe" size="large" :plain="!Boolean(tag_index == 5)" @click="changeTag(5)">娱乐消费</van-tag>
+      <van-tag type="primary" color="#1bb5fe" size="large" :plain="!Boolean(tag_index == 6)" @click="changeTag(6)">其他项目</van-tag>
     </div>
 
     <!-- 确认按钮 -->
@@ -61,14 +61,15 @@ export default {
   data() {
     return {
       money_show: false, //数字输入键盘显示
-      message: "", //文本输入框
+      message: "", //文本输入框(备注)
       value: "", //金额数字
       date: "", //记账日期
       calendar_show: false, //日期显示
       time_show: false,
       currentTime: "", //当前时间
       minDate: new Date(), //最小选择的时间
-      incomeState: false, //当前收入与支出的状态
+      incomeState: 0, //当前收入与支出的状态 0-支出  1-收入
+      tag_index: 2, //标签标志位 0-服饰鞋帽 1-交通出行 2-食物小吃 3-学习提升 4-外出旅行 5-娱乐消费 6-其他项目
     };
   },
   mounted() {
@@ -100,11 +101,35 @@ export default {
     },
     // 提交按钮的回调函数
     onSubmit() {
-      this.$toast.success({
-        message: "添加成功",
-        forbidClick: true,
-        duration: "1000",
-      });
+      //向后端提交添加的数据
+      console.log(this.value, this.date, this.currentTime, this.message, this.incomeState, this.tag_index);
+      // 非空校验
+      if (this.value.length <= 0) {
+        return this.$toast.fail("金额为必填");
+      } else if (this.date.length <= 0) {
+        return this.$toast.fail("日期为必填");
+      } else if (this.currentTime.length <= 0) {
+        return this.$toast.fail("时间为必填");
+      } else {
+        //像接口发起添加数据的请求
+        this.$axios
+          .post("/account/add", {
+            value: this.value,
+            date: this.date,
+            currentTime: this.currentTime,
+            message: this.message,
+            incomeState: this.incomeState,
+            tag_index: this.tag_index,
+          })
+          .then((res) => {
+            console.log(res.data);
+            this.$toast.success({
+              message: "添加成功",
+              forbidClick: true,
+              duration: "1000",
+            });
+          });
+      }
     },
     // 当前时间
     toGetTime() {
@@ -121,11 +146,15 @@ export default {
     },
     //收入与支出切换
     switchChangeIncome(value) {
-      if (value == "收入") {
-        this.incomeState = true;
-      } else {
-        this.incomeState = false;
-      }
+      this.incomeState = value;
+      console.log("收入状态:", this.incomeState);
+    },
+
+    // 标签切换
+    changeTag(value) {
+      this.tag_index = value;
+      console.log("tag状态: ", this.tag_index);
+      //  0-服饰鞋帽 1-交通出行 2-食物小吃 3-学习提升 4-外出旅行 5-娱乐消费 6-其他项目
     },
   },
   // 过滤器
@@ -146,9 +175,10 @@ export default {
   .van-submit-bar {
     width: 7.5rem;
     margin: 0 auto;
-    left: 50%;
-    transform: translate(-50%);
-    bottom: 1.12rem;
+    // left: 50%;
+    position: static;
+    // transform: translate(-50%);
+    // bottom: 1.12rem;
   }
   .van-submit-bar__button {
     width: 3.75rem;

@@ -20,7 +20,7 @@
             <span>{{ item.tag | tagValue }}</span>
             <span>{{ item.time }}</span>
             <span>{{ item.comment }}</span>
-            <span>¥{{ item.money }}</span>
+            <span>¥ {{ item.money }}</span>
           </li>
         </ul>
       </van-collapse-item>
