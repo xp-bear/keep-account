@@ -24,4 +24,15 @@ export default {
   box-sizing: border-box;
   font-size: 0.32rem;
 }
+// 自定义字体
+@font-face {
+  font-family: xp;
+  src: url("http://cdn.xxoutman.cn/two.ttf");
+}
+
+// 自定义字体
+@font-face {
+  font-family: consolas;
+  src: url("http://cdn.xxoutman.cn/one.ttf");
+}
 </style>

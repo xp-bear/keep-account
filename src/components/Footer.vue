@@ -12,11 +12,11 @@ export default {
   name: "Footer",
   data() {
     return {
-      current_index: 1, //标志每一个tab栏位置
+      current_index: 0, //标志每一个tab栏位置
     };
   },
   mounted() {
-    this.redirectPage(1); //默认加载的是记账页面
+    this.redirectPage(0); //默认加载的是记账页面
   },
   methods: {
     // 跳转每一个tab栏
