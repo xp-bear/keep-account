@@ -44,7 +44,7 @@
             <span>{{ tagValue(item.record_tag) }}</span>
             <span>{{ item.record_time }}</span>
             <span>{{ item.record_comment }}</span>
-            <span>¥ {{ item.record_money }}</span>
+            <span style="width: 20%">¥ {{ item.record_money }}</span>
           </li>
         </ul>
       </van-collapse-item>
@@ -72,7 +72,7 @@
               <span>{{ tagValue(item.record_tag) }}</span>
               <span>{{ item.record_time }}</span>
               <span>{{ item.record_comment }}</span>
-              <span>¥ {{ item.record_money }}</span>
+              <span style="width: 20%">¥ {{ item.record_money }}</span>
             </template>
           </li>
         </ul>
@@ -85,8 +85,6 @@
 </template>
 
 <script>
-// import HelloWorld from '@/components/HelloWorld.vue'
-
 export default {
   name: "Tag",
   components: {},
@@ -100,7 +98,7 @@ export default {
       selectDateShow: false, //是否展示日历面板
       incomeState: 0, //收入与支出状态 0-支出 1-收入
       // 月份
-      minDate: new Date(2020, 0, 1),
+      minDate: new Date(2023, 0, 1),
       maxDate: new Date(2030, 11, 30),
       currentDate: "",
       monthPanelState: false, //月份面板状态
@@ -121,13 +119,16 @@ export default {
     onSelect() {
       console.log(this.dataOnce);
       this.ActionShow = false;
-      this.$toast.success({
-        message: "删除成功",
-        forbidClick: true,
-        duration: "1000",
-      });
       // 调用接口删除数据
-      // ....
+      this.$axios.post("/account/delete", { record_id: this.dataOnce.record_id }).then((res) => {
+        this.$toast.success({
+          message: "删除成功",
+          forbidClick: true,
+          duration: "1000",
+        });
+        this.selectDate = ""; //选择日期置为空。
+        this.selectMonth = ""; //选择月份置为空。
+      });
     },
     month_cancel() {
       this.monthPanelState = false;
@@ -141,9 +142,6 @@ export default {
       this.$axios.get(`/account/searchmonth?monthdata=${this.selectMonth}&flag=${this.incomeState}`).then((res) => {
         this.monthDatas = res.data;
 
-        // this.monthDatas.forEach((item) => {
-        //   this.totalMoney += +item.record_money;
-        // });
         for (let key in this.monthDatas) {
           let totalMoney = 0;
           this.monthDatas[key].forEach((item) => {
@@ -151,7 +149,6 @@ export default {
           });
           this.monthDatas[key].push(totalMoney);
         }
-        // console.log("月份数据: ", this.monthDatas);
       });
     },
     // 选择月份
@@ -168,7 +165,6 @@ export default {
       this.selectDate = ""; // 重置查询的日期
       this.selectMonth = ""; //重置查询的月份
       this.incomeState = value; //赋值操作
-      // console.log("收入状态:", this.incomeState);
     },
     formatDate(date) {
       return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
@@ -178,7 +174,7 @@ export default {
       this.totalMoney = 0; //总金额重新设置为0
       this.selectDateShow = false;
       this.selectDate = this.formatDate(date);
-      console.log("确定的时间:", this.selectDate);
+      // console.log("确定的时间:", this.selectDate);
       // 请求查询的时间
       this.$axios.get(`/account/searchday?date=${this.selectDate}&flag=${this.incomeState}`).then((res) => {
         this.datas = res.data;

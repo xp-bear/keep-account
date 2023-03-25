@@ -23,7 +23,9 @@ import { DatetimePicker } from "vant";
 import { Popup } from "vant";
 import { ActionSheet } from "vant";
 import { Empty } from 'vant';
+import { Picker } from 'vant';
 
+Vue.use(Picker);
 Vue.use(Empty);
 Vue.use(ActionSheet);
 Vue.use(Popup);
@@ -50,6 +52,7 @@ Vue.prototype.$axios = axios;
 
 dayjs.extend(isLeapYear); // use plugin
 dayjs.locale("zh-cn"); // use locale
+
 // 引入echarts
 import * as echarts from "echarts";
 Vue.prototype.$echarts = echarts;

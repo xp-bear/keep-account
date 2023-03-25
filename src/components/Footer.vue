@@ -16,7 +16,7 @@ export default {
     };
   },
   mounted() {
-    this.redirectPage(0); //默认加载的是记账页面
+    this.redirectPage(2); //默认加载的是记账页面
   },
   methods: {
     // 跳转每一个tab栏
@@ -45,7 +45,7 @@ export default {
 
 <style lang="less" scoped>
 .Footer {
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 1.12rem;
   bottom: 0;
