@@ -29,7 +29,7 @@
     <van-cell title="按日期查询" :value="selectDate" @click="selectDateShow = true" is-link />
     <van-calendar color="#1bb5fe" v-model="selectDateShow" @confirm="onConfirm" :min-date="new Date('2023/1/1')" />
 
-    <!-- 查询三天的消费金额 -->
+    <!-- 查询日期消费金额 -->
     <van-collapse v-model="activeNames" v-if="selectDate">
       <van-collapse-item icon="shop-o">
         <template #title>
@@ -40,7 +40,7 @@
           </div>
         </template>
         <ul class="detail">
-          <li v-for="item in datas" :key="item.record_id">
+          <li v-for="item in datas" :key="item.record_id" @click="changeActionPanel(item)">
             <span>{{ tagValue(item.record_tag) }}</span>
             <span>{{ item.record_time }}</span>
             <span>{{ item.record_comment }}</span>
@@ -67,7 +67,7 @@
           </div>
         </template>
         <ul class="detail">
-          <li v-for="(item, index) in value" :key="item.record_id">
+          <li v-for="(item, index) in value" :key="item.record_id" @click="changeActionPanel(item)">
             <template v-if="index < value.length - 1">
               <span>{{ tagValue(item.record_tag) }}</span>
               <span>{{ item.record_time }}</span>
@@ -78,6 +78,9 @@
         </ul>
       </van-collapse-item>
     </van-collapse>
+
+    <!-- 动作面板 -->
+    <van-action-sheet v-model="ActionShow" :actions="actions" @select="onSelect" description="是否要删除当前该条记录？" cancel-text="取消" />
   </div>
 </template>
 
@@ -103,10 +106,29 @@ export default {
       monthPanelState: false, //月份面板状态
       selectMonth: "", //选择的月份 2023/11月
       monthDatas: {}, //当前月份数据
+
+      ActionShow: false, //动作面板展开状态。
+      actions: [{ name: "删除该条记录", color: "#ee0a24" }],
+      dataOnce: {}, //一条数据
     };
   },
   mounted() {},
   methods: {
+    changeActionPanel(item) {
+      this.dataOnce = item;
+      this.ActionShow = true;
+    },
+    onSelect() {
+      console.log(this.dataOnce);
+      this.ActionShow = false;
+      this.$toast.success({
+        message: "删除成功",
+        forbidClick: true,
+        duration: "1000",
+      });
+      // 调用接口删除数据
+      // ....
+    },
     month_cancel() {
       this.monthPanelState = false;
     },

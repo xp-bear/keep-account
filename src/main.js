@@ -21,7 +21,11 @@ import { Collapse, CollapseItem } from "vant";
 import { Icon } from "vant";
 import { DatetimePicker } from "vant";
 import { Popup } from "vant";
+import { ActionSheet } from "vant";
+import { Empty } from 'vant';
 
+Vue.use(Empty);
+Vue.use(ActionSheet);
 Vue.use(Popup);
 Vue.use(DatetimePicker);
 Vue.use(Icon);

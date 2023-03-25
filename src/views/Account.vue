@@ -58,6 +58,7 @@ export default {
       message: "", //文本输入框(备注)
       value: "", //金额数字
       date: this.formatDate(new Date()), //记账日期
+      dateMonth: this.formatMonth(new Date()), //记账月份
       calendar_show: false, //日期显示面板
       time_show: false, //时间显示面板
       currentTime: this.formatTime(new Date()), //当前时间
@@ -79,6 +80,13 @@ export default {
     // console.log(this.minDate); //日期显示
   },
   methods: {
+    // 格式化月份
+    formatMonth(date) {
+      let year = date.getFullYear();
+      let month = date.getMonth() + 1;
+      month = month < 10 ? "0" + month : month;
+      return `${year}/${month}`;
+    },
     // 格式化日期
     formatDate(date) {
       return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
@@ -100,7 +108,16 @@ export default {
     // 提交按钮的回调函数
     onSubmit() {
       //向后端提交添加的数据
-      console.log(this.value, this.date, this.currentTime, this.message, this.incomeState, this.tag_index);
+      /**
+       * this.value 金额
+       * this.incomeState 收入与支出 0-支出 1-收入
+       * this.tag_index 消费与收入标签: 0-服饰鞋帽
+       * this.date 数据创建时间 2023/2/23
+       * this.message 数据备注信息
+       * dateMonth: 数据所属的月份 2023/03
+       * this.currentTime :  当前时间 19:30
+       */
+      console.log(this.dateMonth, this.value, this.incomeState, this.tag_index, this.date, this.currentTime, this.message);
       // 非空校验
       if (this.value.length <= 0) {
         return this.$toast.fail("金额为必填");
@@ -112,15 +129,19 @@ export default {
         //像接口发起添加数据的请求
         this.$axios
           .post("/account/add", {
-            value: this.value,
-            date: this.date,
-            currentTime: this.currentTime,
-            message: this.message,
-            incomeState: this.incomeState,
-            tag_index: this.tag_index,
+            record_state: this.incomeState,
+            record_tag: this.tag_index,
+            record_create_time: this.date,
+            record_comment: this.message,
+            record_money: this.value,
+            record_date: this.dateMonth,
+            record_time: this.currentTime,
           })
           .then((res) => {
-            console.log(res.data);
+            // 清空数据
+            this.value = "";
+            this.message = "";
+            this.tag_index = 0;
             this.$toast.success({
               message: "添加成功",
               forbidClick: true,
