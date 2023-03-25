@@ -20,8 +20,8 @@
     </van-swipe>
     <!-- 收入与支出选项 -->
     <div class="income">
-      <van-button type="primary" color="#1bb5fe" :plain="!Boolean(incomeState == 0)" block size="small" @click="switchChangeIncome(0)">支出</van-button>
-      <van-button type="primary" color="#1bb5fe" :plain="!Boolean(incomeState == 1)" block size="small" @click="switchChangeIncome(1)">收入</van-button>
+      <van-button type="danger" color="#ee0a24" :plain="!Boolean(incomeState == 0)" block size="small" @click="switchChangeIncome(0)">支出</van-button>
+      <van-button type="primary" color="#07c160" :plain="!Boolean(incomeState == 1)" block size="small" @click="switchChangeIncome(1)">收入</van-button>
     </div>
     <!-- 金额 -->
     <van-field class="money" placeholder="请输入金额!" label="金额:" label-width="0.8rem" readonly clickable :value="value | valueForamte" @touchstart.native.stop="money_show = true" />

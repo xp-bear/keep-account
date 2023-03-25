@@ -36,10 +36,8 @@ export default {
   components: {},
   mounted() {
     this.$axios.get("/account/everyday").then((res) => {
-      // console.log(res.data);
-      // this.date = res.data[0].date;
+      console.log(res.data);
       this.datas = res.data;
-      // console.log(this.datas);
       this.date = this.$dayjs(res.data[0]?.date).format("YYYY-MM-DD"); //处理时间格式
       res.data.forEach((item) => {
         this.totalMoney += +item.money;
