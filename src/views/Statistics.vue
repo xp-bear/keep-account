@@ -3,8 +3,35 @@
     <!-- 头部标题 -->
     <van-button type="primary" color="#e8e8e8" block class="title">统计分析</van-button>
 
-    <!-- 选择器 -->
+    <!-- 收入与支出选项 -->
+    <div class="income">
+      <van-button
+        icon="http://cdn.xxoutman.cn/pay-1679804063180.png?1679804063362"
+        type="primary"
+        color="#1bb5fe"
+        hairline
+        :plain="!Boolean(incomeState == 0)"
+        block
+        size="small"
+        @click="switchChangeIncome(0)"
+      >
+        支出
+      </van-button>
+      <van-button
+        icon="http://cdn.xxoutman.cn/income-1679804092077.png?1679804092248"
+        type="primary"
+        color="#1bb5fe"
+        hairline
+        :plain="!Boolean(incomeState == 1)"
+        block
+        size="small"
+        @click="switchChangeIncome(1)"
+      >
+        收入
+      </van-button>
+    </div>
 
+    <!-- 选择器 -->
     <van-cell title="选择分析的月份" :value="selectMonth" @click="monthPanelState = true" is-link />
     <van-popup v-model="monthPanelState" position="bottom" :style="{ height: '50%' }">
       <van-datetime-picker v-model="currentDate" @cancel="month_cancel" @confirm="month_confirm" type="year-month" title="选择月份" :min-date="minDate" :max-date="maxDate" :formatter="formatter" />
@@ -26,16 +53,60 @@ export default {
       minDate: new Date(2023, 0, 1),
       maxDate: new Date(2030, 11, 30),
       currentDate: "", //选中的时间格式
+      monthDatas: {}, //请求回来的月份数据
+      incomeState: 0, //0-支出 1-收入。
+      lineChartX: [], //折线图x轴数据集合
+      lineChartY: [], //折线图y轴数据集合
+
+      pieDatas: [], //饼图数据集合
     };
   },
   mounted() {
     // 选择默认的月份
     this.selectMonth = this.$dayjs(new Date()).format("YYYY/MM");
 
-    this.drawLine(); //折线图
-    this.drawPie(); //饼图
+    // 请求数据
+    this.getData();
+    this.getPieData();
+
+    setTimeout(() => {
+      this.drawLine(); //折线图
+      this.drawPie(); //饼图
+    }, 300);
   },
   methods: {
+    //收入与支出切换
+    switchChangeIncome(value) {
+      this.incomeState = value;
+      console.log("支出与收入状态:", this.incomeState);
+      // 重置选择的时间
+      this.currentDate = new Date();
+      this.month_confirm();
+    },
+    // 请求数据
+    getData() {
+      this.lineChartX = [];
+      this.lineChartY = [];
+      // 请求查询的月份
+      this.$axios.get(`/account/searchmonth?monthdata=${this.selectMonth}&flag=${this.incomeState}`).then((res) => {
+        this.monthDatas = res.data;
+        for (let key in this.monthDatas) {
+          this.lineChartX.push(this.$dayjs(key).format("MM/DD"));
+          let totalMoney = 0;
+          this.monthDatas[key].forEach((item) => {
+            totalMoney += +item.record_money;
+          });
+          this.lineChartY.push(totalMoney);
+        }
+      });
+    },
+
+    // 请求饼图数据
+    getPieData() {
+      this.$axios.get(`/account/searchpie?monthdata=${this.selectMonth}&flag=${this.incomeState}`).then((res) => {
+        this.pieDatas = res.data;
+      });
+    },
     month_cancel() {
       this.monthPanelState = false;
     },
@@ -44,22 +115,15 @@ export default {
       console.log(this.currentDate, this.selectMonth); //月份
       this.monthPanelState = false;
 
-      // 重新绘制图
-      this.drawLine(); //折线图
-      this.drawPie(); //饼图
-      
-      // 请求查询的月份
-      // this.$axios.get(`/account/searchmonth?monthdata=${this.selectMonth}&flag=${this.incomeState}`).then((res) => {
-      //   this.monthDatas = res.data;
+      // 重新请求数据
+      this.getData();
+      this.getPieData();
 
-      //   for (let key in this.monthDatas) {
-      //     let totalMoney = 0;
-      //     this.monthDatas[key].forEach((item) => {
-      //       totalMoney += +item.record_money;
-      //     });
-      //     this.monthDatas[key].push(totalMoney);
-      //   }
-      // });
+      setTimeout(() => {
+        // 重新绘制图
+        this.drawLine(); //折线图
+        this.drawPie(); //饼图
+      }, 300);
     },
     // 选择月份
     formatter(type, val) {
@@ -77,17 +141,17 @@ export default {
       let drawLineChart = this.$echarts.init(chart);
 
       let drawLineOptions = {
-        title: { text: `${this.selectMonth}支出金额分析折线图`, left: "center" },
+        title: { text: `${this.selectMonth}${this.incomeState == 0 ? "支出" : "收入"}折线图`, left: "center" },
         xAxis: {
           type: "category",
-          data: ["第一周", "第二周", "第三周", "第四周"],
+          data: this.lineChartX,
         },
         yAxis: {
           type: "value",
         },
         series: [
           {
-            data: [560, 932, 901, 934],
+            data: this.lineChartY,
             type: "line",
             smooth: true,
           },
@@ -104,7 +168,7 @@ export default {
 
       let drawPieOptions = {
         title: {
-          text: `${this.selectMonth}支出金额分析饼图`,
+          text: `${this.selectMonth}${this.incomeState == 0 ? "支出" : "收入"}饼图`,
           left: "center",
         },
         tooltip: {
@@ -116,15 +180,10 @@ export default {
         // },
         series: [
           {
-            name: "Access From",
+            name: "金额统计",
             type: "pie",
             radius: "50%",
-            data: [
-              { value: 1048, name: "第一周" },
-              { value: 735, name: "第二周" },
-              { value: 580, name: "第三周" },
-              { value: 484, name: "第四周" },
-            ],
+            data: this.pieDatas,
             emphasis: {
               itemStyle: {
                 shadowBlur: 10,
@@ -145,6 +204,17 @@ export default {
 <style lang="less" scoped>
 .Statistics {
   padding-bottom: 0.2rem;
+  .income {
+    display: flex;
+    // margin-top: 0.2rem;
+
+    .van-button {
+      border-radius: 0;
+    }
+    .van-button__text {
+      font-size: 0.32rem;
+    }
+  }
   .title {
     .van-button__text {
       color: black;

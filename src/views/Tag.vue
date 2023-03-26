@@ -1,28 +1,50 @@
 <template>
   <div class="Tag">
     <!-- 头部标题 -->
-    <van-button type="primary" color="#e8e8e8" block class="title">每日记录</van-button>
+    <van-button type="primary" color="#e8e8e8" block class="title">记录查询</van-button>
 
     <!-- 轮播图 -->
     <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
       <van-swipe-item>
-        <img src="//m15.360buyimg.com/mobilecms/s1062x420_jfs/t1/102522/29/23302/471300/621f1a74Ee5eb33e3/6b996cd7a38e97f5.png!cr_1053x420_4_0!q70.jpg" alt="" />
+        <img src="http://cdn.xxoutman.cn/image-1679814909153.png?1679814909403" alt="" style="width: 100%; object-fit: cover" />
       </van-swipe-item>
       <van-swipe-item>
-        <img src="//m15.360buyimg.com/mobilecms/jfs/t1/108595/21/17303/262085/5eb8badbE63787505/7467da98b3f3dacb.jpg!cr_1125x449_0_166!q70.jpg" alt="" />
+        <img src="http://cdn.xxoutman.cn/image-1679815085869.png?1679815086079" alt="" style="width: 100%; object-fit: cover" />
       </van-swipe-item>
       <van-swipe-item>
-        <img src="//m15.360buyimg.com/mobilecms/s1062x420_jfs/t1/102522/29/23302/471300/621f1a74Ee5eb33e3/6b996cd7a38e97f5.png!cr_1053x420_4_0!q70.jpg" alt="" />
+        <img src="http://cdn.xxoutman.cn/image-1679814829648.png?1679814829864" alt="" style="width: 100%; object-fit: cover" />
       </van-swipe-item>
       <van-swipe-item>
-        <img src="//m15.360buyimg.com/mobilecms/jfs/t1/108595/21/17303/262085/5eb8badbE63787505/7467da98b3f3dacb.jpg!cr_1125x449_0_166!q70.jpg" alt="" />
+        <img src="http://cdn.xxoutman.cn/image-1679814859236.png?1679814859535" alt="" style="width: 100%; object-fit: cover" />
       </van-swipe-item>
     </van-swipe>
 
     <!-- 标题选项 -->
     <div class="income">
-      <van-button type="primary" color="#1bb5fe" :plain="!Boolean(incomeState == 0)" block size="small" @click="switchChangeIncome(0)">支出</van-button>
-      <van-button type="primary" color="#1bb5fe" :plain="!Boolean(incomeState == 1)" block size="small" @click="switchChangeIncome(1)">收入</van-button>
+      <van-button
+        icon="http://cdn.xxoutman.cn/pay-1679804063180.png?1679804063362"
+        type="primary"
+        color="#1bb5fe"
+        hairline
+        :plain="!Boolean(incomeState == 0)"
+        block
+        size="small"
+        @click="switchChangeIncome(0)"
+      >
+        支出
+      </van-button>
+      <van-button
+        icon="http://cdn.xxoutman.cn/income-1679804092077.png?1679804092248"
+        type="primary"
+        color="#1bb5fe"
+        hairline
+        :plain="!Boolean(incomeState == 1)"
+        block
+        size="small"
+        @click="switchChangeIncome(1)"
+      >
+        收入
+      </van-button>
     </div>
 
     <!-- 查询日期选择 -->

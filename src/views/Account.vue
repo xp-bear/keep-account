@@ -5,9 +5,32 @@
 
     <!-- 收入与支出选项 -->
     <div class="income">
-      <van-button type="primary" color="#1bb5fe" :plain="!Boolean(incomeState == 0)" block size="small" @click="switchChangeIncome(0)">支出</van-button>
-      <van-button type="primary" color="#1bb5fe" :plain="!Boolean(incomeState == 1)" block size="small" @click="switchChangeIncome(1)">收入</van-button>
+      <van-button
+        icon="http://cdn.xxoutman.cn/pay-1679804063180.png?1679804063362"
+        type="primary"
+        color="#1bb5fe"
+        hairline
+        :plain="!Boolean(incomeState == 0)"
+        block
+        size="small"
+        @click="switchChangeIncome(0)"
+      >
+        支出
+      </van-button>
+      <van-button
+        icon="http://cdn.xxoutman.cn/income-1679804092077.png?1679804092248"
+        type="primary"
+        color="#1bb5fe"
+        hairline
+        :plain="!Boolean(incomeState == 1)"
+        block
+        size="small"
+        @click="switchChangeIncome(1)"
+      >
+        收入
+      </van-button>
     </div>
+
     <!-- 金额 -->
     <van-field class="money" placeholder="请输入金额!" label="金额:" label-width="0.8rem" readonly clickable :value="value | valueForamte" @touchstart.native.stop="money_show = true" />
     <van-number-keyboard v-model="value" title="金额数字键盘" extra-key="." :show="money_show" :maxlength="6" @blur="money_show = false" />
@@ -191,6 +214,7 @@ export default {
 
 <style lang="less" scoped>
 .Account {
+  position: relative;
   .van-submit-bar {
     width: 7.5rem;
     margin: 0 auto;
@@ -254,6 +278,9 @@ export default {
   }
   .confirm {
     position: fixed;
+    margin: 0 auto;
+    left: 50%;
+    transform: translateX(-50%);
     bottom: 1.44rem;
   }
 }
