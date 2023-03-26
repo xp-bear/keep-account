@@ -22,8 +22,8 @@ import { Icon } from "vant";
 import { DatetimePicker } from "vant";
 import { Popup } from "vant";
 import { ActionSheet } from "vant";
-import { Empty } from 'vant';
-import { Picker } from 'vant';
+import { Empty } from "vant";
+import { Picker } from "vant";
 
 Vue.use(Picker);
 Vue.use(Empty);
@@ -58,7 +58,7 @@ import * as echarts from "echarts";
 Vue.prototype.$echarts = echarts;
 
 //配置默认IP地址
-axios.defaults.baseURL = "http://localhost:9999";
+axios.defaults.baseURL = "http://150.158.21.251:9999";
 
 // 引入reset.css
 import "./assets/css/reset.css";

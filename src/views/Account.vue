@@ -32,15 +32,25 @@
     </div>
 
     <!-- 金额 -->
-    <van-field class="money" placeholder="请输入金额!" label="金额:" label-width="0.8rem" readonly clickable :value="value | valueForamte" @touchstart.native.stop="money_show = true" />
+    <van-cell
+      class="money"
+      placeholder="请输入金额!"
+      title="输入金额"
+      value="金额为必填项"
+      label-width="1.2rem"
+      readonly
+      clickable
+      :value="value | valueForamte"
+      @touchstart.native.stop="money_show = true"
+    />
     <van-number-keyboard v-model="value" title="金额数字键盘" extra-key="." :show="money_show" :maxlength="6" @blur="money_show = false" />
 
     <!-- 选择日期 -->
-    <van-field class="clander" label="日期:" placeholder="请选择日期!" label-width="0.8rem" :value="date" @click="getCalendar" />
+    <van-cell class="clander" title="选择日期" placeholder="请选择日期!" label-width="0.8rem" :value="date" @click="getCalendar" />
     <van-calendar v-model="calendar_show" :min-date="minDate" color="#1bb5fe" @confirm="onConfirm" />
 
     <!-- 选择时间 -->
-    <van-field class="clander" label="时间:" placeholder="请选择时间!" label-width="0.8rem" :value="currentTime" @click="toGetTime" />
+    <van-cell class="clander" title="选择时间" placeholder="请选择时间!" label-width="0.8rem" :value="currentTime" @click="toGetTime" />
     <van-popup v-model="time_show" position="bottom" :style="{ height: '50%' }">
       <van-datetime-picker v-model="currentTime" type="time" title="选择时间" :min-hour="0" :max-hour="23" @confirm="timeConfirm" />
     </van-popup>
@@ -116,7 +126,7 @@ export default {
     },
     // 格式化时间
     formatTime(date) {
-      return `${date.getHours()}:${date.getMinutes()}`;
+      return `${date.getHours()}:${date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()}`;
     },
     // 日期确定
     onConfirm(date) {
@@ -125,7 +135,6 @@ export default {
       // console.log("记账日期: ", this.date);
     },
     timeConfirm() {
-      console.log(11);
       this.time_show = false;
     },
     // 提交按钮的回调函数
@@ -140,7 +149,7 @@ export default {
        * dateMonth: 数据所属的月份 2023/03
        * this.currentTime :  当前时间 19:30
        */
-      console.log(this.dateMonth, this.value, this.incomeState, this.tag_index, this.date, this.currentTime, this.message);
+      // console.log(this.dateMonth, this.value, this.incomeState, this.tag_index, this.date, this.currentTime, this.message);
       // 非空校验
       if (this.value.length <= 0) {
         return this.$toast.fail("金额为必填");
@@ -189,7 +198,7 @@ export default {
     //收入与支出切换
     switchChangeIncome(value) {
       this.incomeState = value;
-      console.log("收入状态:", this.incomeState);
+      // console.log("收入状态:", this.incomeState);
     },
 
     // 标签切换

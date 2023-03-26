@@ -37,6 +37,41 @@
       <van-datetime-picker v-model="currentDate" @cancel="month_cancel" @confirm="month_confirm" type="year-month" title="选择月份" :min-date="minDate" :max-date="maxDate" :formatter="formatter" />
     </van-popup>
 
+    <!-- 展示该月收入与支出的结果。 -->
+    <div class="pay" v-show="incomeState == 0">
+      <div class="pay-title">本月支出</div>
+      <div style="display: flex; justify-content: space-evenly; margin-top: 0.1rem">
+        <div class="pay-info">
+          <span>共计支出</span>
+          <span>{{ accountTotalMoney }}</span>
+        </div>
+        <div class="pay-info">
+          <span>记账笔数</span>
+          <span>{{ accountNumber }}</span>
+        </div>
+        <div class="pay-info">
+          <span>日均支出</span>
+          <span>{{ (accountTotalMoney / accountNumber).toFixed(2) }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="pay" v-show="incomeState == 1">
+      <div class="pay-title">本月收入</div>
+      <div style="display: flex; justify-content: space-evenly; margin-top: 0.1rem">
+        <div class="pay-info">
+          <span>共计收入</span>
+          <span>{{ accountTotalMoney }}</span>
+        </div>
+        <div class="pay-info">
+          <span>记账笔数</span>
+          <span>{{ accountNumber }}</span>
+        </div>
+        <div class="pay-info">
+          <span>日均收入</span>
+          <span>{{ (accountTotalMoney / accountNumber).toFixed(2) }}</span>
+        </div>
+      </div>
+    </div>
     <!-- 画图 -->
     <div ref="drawLine" style="width: 7.5rem; height: 6rem"></div>
     <div ref="drawPie" style="width: 7.5rem; height: 6rem"></div>
@@ -59,6 +94,9 @@ export default {
       lineChartY: [], //折线图y轴数据集合
 
       pieDatas: [], //饼图数据集合
+
+      accountNumber: 0, //记账笔数
+      accountTotalMoney: 0, //记账总金额
     };
   },
   mounted() {
@@ -90,13 +128,21 @@ export default {
       // 请求查询的月份
       this.$axios.get(`/account/searchmonth?monthdata=${this.selectMonth}&flag=${this.incomeState}`).then((res) => {
         this.monthDatas = res.data;
+        // console.log(this.monthDatas);
+        let counter = 0; //统计记账笔数
+        let total = 0; //记账总金额
         for (let key in this.monthDatas) {
           this.lineChartX.push(this.$dayjs(key).format("MM/DD"));
           let totalMoney = 0;
           this.monthDatas[key].forEach((item) => {
             totalMoney += +item.record_money;
+            counter += 1; //记账笔数+1
+            total += +item.record_money; //增加每一笔记账的金额
           });
           this.lineChartY.push(totalMoney);
+          this.accountNumber = counter;
+          this.accountTotalMoney = total;
+          // console.log("记账笔数: ", this.accountNumber, this.accountTotalMoney);
         }
       });
     },
@@ -203,6 +249,7 @@ export default {
 
 <style lang="less" scoped>
 .Statistics {
+  background-color: #fafafa;
   padding-bottom: 0.2rem;
   .income {
     display: flex;
@@ -213,6 +260,40 @@ export default {
     }
     .van-button__text {
       font-size: 0.32rem;
+    }
+  }
+  .pay {
+    width: 6.9rem;
+    height: 2.05rem;
+    box-sizing: border-box;
+    background-color: #fff;
+    background: url(../assets/img/bg.png) no-repeat;
+    background-size: cover;
+    border-radius: 0.2rem;
+    padding: 0.2rem;
+    font-family: "siyuan";
+    margin: 0.1rem auto;
+    .pay-title {
+      font-size: 0.34rem;
+      color: rgba(51, 51, 51, 1);
+      font-weight: 500;
+    }
+    .pay-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      span {
+        &:nth-child(1) {
+          font-size: 0.24rem;
+          color: #fff;
+          margin-bottom: 0.06rem;
+        }
+        &:nth-child(2) {
+          font-size: 0.38rem;
+          font-weight: 700;
+          color: #ffff;
+        }
+      }
     }
   }
   .title {

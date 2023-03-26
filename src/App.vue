@@ -35,4 +35,10 @@ export default {
   font-family: consolas;
   src: url("http://cdn.xxoutman.cn/one.ttf");
 }
+
+// 自定义字体
+@font-face {
+  font-family: siyuan;
+  src: url("./assets/font/siyuan.ttf");
+}
 </style>
