@@ -132,7 +132,8 @@ export default {
     onConfirm(date) {
       this.calendar_show = false;
       this.date = this.formatDate(date);
-      // console.log("记账日期: ", this.date);
+      this.dateMonth = this.$dayjs(this.date).format("YYYY/MM");
+      console.log("记账日期: ", this.dateMonth);
     },
     timeConfirm() {
       this.time_show = false;
