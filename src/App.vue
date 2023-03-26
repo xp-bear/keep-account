@@ -39,6 +39,6 @@ export default {
 // 自定义字体
 @font-face {
   font-family: siyuan;
-  src: url("./assets/font/siyuan.ttf");
+  src: url("http://cdn.xxoutman.cn/siyuan.ttf");
 }
 </style>

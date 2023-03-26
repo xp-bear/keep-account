@@ -43,7 +43,7 @@
       <div style="display: flex; justify-content: space-evenly; margin-top: 0.1rem">
         <div class="pay-info">
           <span>共计支出</span>
-          <span>{{ accountTotalMoney }}</span>
+          <span>¥ {{ accountTotalMoney }}</span>
         </div>
         <div class="pay-info">
           <span>记账笔数</span>
@@ -51,7 +51,7 @@
         </div>
         <div class="pay-info">
           <span>日均支出</span>
-          <span>{{ (accountTotalMoney / accountNumber).toFixed(2) }}</span>
+          <span>¥ {{ dayIncome(accountTotalMoney, accountNumber) }}</span>
         </div>
       </div>
     </div>
@@ -60,7 +60,7 @@
       <div style="display: flex; justify-content: space-evenly; margin-top: 0.1rem">
         <div class="pay-info">
           <span>共计收入</span>
-          <span>{{ accountTotalMoney }}</span>
+          <span>¥ {{ accountTotalMoney }}</span>
         </div>
         <div class="pay-info">
           <span>记账笔数</span>
@@ -68,7 +68,7 @@
         </div>
         <div class="pay-info">
           <span>日均收入</span>
-          <span>{{ (accountTotalMoney / accountNumber).toFixed(2) }}</span>
+          <span>¥ {{ dayIncome(accountTotalMoney, accountNumber) }}</span>
         </div>
       </div>
     </div>
@@ -113,12 +113,18 @@ export default {
     }, 300);
   },
   methods: {
+    // 收入与支出金额显示
+    dayIncome(money, number) {
+      return number == 0 ? 0 : (money / number).toFixed(2);
+    },
     //收入与支出切换
     switchChangeIncome(value) {
       this.incomeState = value;
-      console.log("支出与收入状态:", this.incomeState);
+      // console.log("支出与收入状态:", this.incomeState);
       // 重置选择的时间
       this.currentDate = new Date();
+      this.accountNumber = 0;
+      this.accountTotalMoney = 0;
       this.month_confirm();
     },
     // 请求数据
