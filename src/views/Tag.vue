@@ -6,16 +6,16 @@
     <!-- 轮播图 -->
     <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
       <van-swipe-item>
-        <img src="http://cdn.xxoutman.cn/image-1679814909153.png?1679814909403" alt="" style="width: 100%; object-fit: cover" />
+        <img src="http://cdn.xxoutman.cn/image-1679842151298.png?1679842151834" alt="" style="width: 100%; object-fit: cover" />
       </van-swipe-item>
       <van-swipe-item>
-        <img src="http://cdn.xxoutman.cn/image-1679815085869.png?1679815086079" alt="" style="width: 100%; object-fit: cover" />
+        <img src="http://cdn.xxoutman.cn/image-1679842135181.png?1679842135368" alt="" style="width: 100%; object-fit: cover" />
       </van-swipe-item>
       <van-swipe-item>
-        <img src="http://cdn.xxoutman.cn/image-1679814829648.png?1679814829864" alt="" style="width: 100%; object-fit: cover" />
+        <img src="http://cdn.xxoutman.cn/image-1679842085405.png?1679842085631" alt="" style="width: 100%; object-fit: cover" />
       </van-swipe-item>
       <van-swipe-item>
-        <img src="http://cdn.xxoutman.cn/image-1679814859236.png?1679814859535" alt="" style="width: 100%; object-fit: cover" />
+        <img src="http://cdn.xxoutman.cn/image-1679842048569.png?1679842049064" alt="" style="width: 100%; object-fit: cover" />
       </van-swipe-item>
     </van-swipe>
 

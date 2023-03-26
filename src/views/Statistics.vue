@@ -43,15 +43,15 @@
       <div style="display: flex; justify-content: space-evenly; margin-top: 0.1rem">
         <div class="pay-info">
           <span>共计支出</span>
-          <span>¥ {{ accountTotalMoney }}</span>
+          <span>¥{{ accountTotalMoney }}</span>
         </div>
         <div class="pay-info">
           <span>记账笔数</span>
-          <span>{{ accountNumber }}</span>
+          <span>{{ accountNumber }}条</span>
         </div>
         <div class="pay-info">
           <span>日均支出</span>
-          <span>¥ {{ dayIncome(accountTotalMoney, accountNumber) }}</span>
+          <span>¥{{ dayIncome(accountTotalMoney, accountNumber) }}</span>
         </div>
       </div>
     </div>
@@ -60,15 +60,15 @@
       <div style="display: flex; justify-content: space-evenly; margin-top: 0.1rem">
         <div class="pay-info">
           <span>共计收入</span>
-          <span>¥ {{ accountTotalMoney }}</span>
+          <span>¥{{ accountTotalMoney }}</span>
         </div>
         <div class="pay-info">
           <span>记账笔数</span>
-          <span>{{ accountNumber }}</span>
+          <span>{{ accountNumber }}条</span>
         </div>
         <div class="pay-info">
           <span>日均收入</span>
-          <span>¥ {{ dayIncome(accountTotalMoney, accountNumber) }}</span>
+          <span>¥{{ dayIncome(accountTotalMoney, accountNumber) }}</span>
         </div>
       </div>
     </div>
@@ -166,6 +166,9 @@ export default {
       this.selectMonth = this.$dayjs(this.currentDate).format("YYYY/MM");
       console.log(this.currentDate, this.selectMonth); //月份
       this.monthPanelState = false;
+      // 重置金额
+      this.accountNumber = 0;
+      this.accountTotalMoney = 0;
 
       // 重新请求数据
       this.getData();
