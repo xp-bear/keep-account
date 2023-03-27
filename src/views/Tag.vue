@@ -112,7 +112,7 @@ export default {
   components: {},
   data() {
     return {
-      activeNames: ["1"],
+      activeNames: ["0"],
       activeMonthNames: [""],
       totalMoney: 0, //每一天金额的统计总数.
       datas: [], //每一天的消费查询
@@ -132,14 +132,29 @@ export default {
       dataOnce: {}, //一条数据
     };
   },
-  mounted() {},
+  mounted() {
+    this.getInitData();
+  },
   methods: {
+    // 请求初始数据
+    getInitData() {
+      this.selectDate = this.formatDate(new Date());
+      // 请求查询的时间
+      this.$axios.get(`/account/searchday?date=${this.selectDate}&flag=${this.incomeState}`).then((res) => {
+        this.datas = res.data;
+
+        this.date = this.$dayjs(res.data[0]?.record_create_time).format("YYYY-MM-DD"); //处理时间格式
+        res.data.forEach((item) => {
+          this.totalMoney += +item.record_money;
+        });
+      });
+    },
     changeActionPanel(item) {
       this.dataOnce = item;
       this.ActionShow = true;
     },
     onSelect() {
-      console.log(this.dataOnce);
+      // console.log(this.dataOnce);
       this.ActionShow = false;
       // 调用接口删除数据
       this.$axios.post("/account/delete", { record_id: this.dataOnce.record_id }).then((res) => {
@@ -150,6 +165,8 @@ export default {
         });
         this.selectDate = ""; //选择日期置为空。
         this.selectMonth = ""; //选择月份置为空。
+        this.totalMoney = 0;
+        this.getInitData();
       });
     },
     month_cancel() {
@@ -186,7 +203,9 @@ export default {
     switchChangeIncome(value) {
       this.selectDate = ""; // 重置查询的日期
       this.selectMonth = ""; //重置查询的月份
+      this.totalMoney = 0; //初始金额为0
       this.incomeState = value; //赋值操作
+      this.getInitData();
     },
     formatDate(date) {
       return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;

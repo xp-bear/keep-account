@@ -57,8 +57,14 @@ dayjs.locale("zh-cn"); // use locale
 import * as echarts from "echarts";
 Vue.prototype.$echarts = echarts;
 
-//配置默认IP地址
-axios.defaults.baseURL = "http://150.158.21.251:9999";
+if (process.env.NODE_ENV == "development") {
+  // 开发环境
+  //配置默认IP地址
+  axios.defaults.baseURL = "http://127.0.0.1:9999";
+} else {
+  // 打包环境
+  axios.defaults.baseURL = "http://150.158.21.251:9999";
+}
 
 // 引入reset.css
 import "./assets/css/reset.css";

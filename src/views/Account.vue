@@ -52,7 +52,7 @@
     <!-- 选择时间 -->
     <van-cell class="clander" title="选择时间" placeholder="请选择时间!" label-width="0.8rem" :value="currentTime" @click="toGetTime" />
     <van-popup v-model="time_show" position="bottom" :style="{ height: '50%' }">
-      <van-datetime-picker v-model="currentTime" type="time" title="选择时间" :min-hour="0" :max-hour="23" @confirm="timeConfirm" />
+      <van-datetime-picker v-model="currentTime" type="time" title="选择时间" :min-hour="0" :max-hour="23" @confirm="timeConfirm" @cancel="timeCanel" />
     </van-popup>
 
     <!-- 文本域输入框 autosize自动化高度 -->
@@ -138,6 +138,9 @@ export default {
     timeConfirm() {
       this.time_show = false;
     },
+    timeCanel() {
+      this.time_show = false;
+    },
     // 提交按钮的回调函数
     onSubmit() {
       //向后端提交添加的数据
@@ -198,6 +201,8 @@ export default {
     },
     //收入与支出切换
     switchChangeIncome(value) {
+      // 重置标签状态
+      this.tag_index = 0;
       this.incomeState = value;
       // console.log("收入状态:", this.incomeState);
     },
@@ -205,7 +210,7 @@ export default {
     // 标签切换
     changeTag(value) {
       this.tag_index = value;
-      console.log("tag状态: ", this.tag_index);
+      // console.log("tag状态: ", this.tag_index);
       //  0-服饰鞋帽 1-交通出行 2-食物小吃 3-学习提升 4-外出旅行 5-娱乐消费 6-其他项目
     },
   },

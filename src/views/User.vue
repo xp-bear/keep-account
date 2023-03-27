@@ -9,8 +9,9 @@
         <div class="title">
           <img src="http://cdn.xxoutman.cn/logo.jpg" alt="" />
           <span>想走过亚洲的熊</span>
-          <van-icon name="arrow" color="#fff" size="19" style="float: right" />
+          <van-icon name="arrow" color="#fff" size="16" style="float: right" />
         </div>
+
         <!-- 下面信息区域 -->
         <div class="info">
           <div class="info-label">
@@ -64,6 +65,10 @@ export default {
   name: "User",
   data() {
     return {};
+  },
+  mounted() {
+    // 请求天数数据接口
+    console.log(111);
   },
   methods: {},
 };
@@ -149,7 +154,7 @@ export default {
       flex-direction: column;
       align-items: center;
       span {
-        font-size: 0.28rem;
+        font-size: 0.24rem;
         margin-top: 0.1rem;
       }
     }

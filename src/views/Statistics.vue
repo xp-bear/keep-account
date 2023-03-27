@@ -164,7 +164,7 @@ export default {
     },
     month_confirm() {
       this.selectMonth = this.$dayjs(this.currentDate).format("YYYY/MM");
-      console.log(this.currentDate, this.selectMonth); //月份
+      // console.log(this.currentDate, this.selectMonth); //月份
       this.monthPanelState = false;
       // 重置金额
       this.accountNumber = 0;
@@ -204,8 +204,12 @@ export default {
         yAxis: {
           type: "value",
         },
+        tooltip: {
+          trigger: "item", // axis   item   none三个值
+        },
         series: [
           {
+            name: "金额统计",
             data: this.lineChartY,
             type: "line",
             smooth: true,
