@@ -8,7 +8,7 @@
       <van-button
         icon="http://cdn.xxoutman.cn/pay-1679804063180.png?1679804063362"
         type="primary"
-        color="#1bb5fe"
+        color="#de3126"
         hairline
         :plain="!Boolean(incomeState == 0)"
         block
@@ -20,7 +20,7 @@
       <van-button
         icon="http://cdn.xxoutman.cn/income-1679804092077.png?1679804092248"
         type="primary"
-        color="#1bb5fe"
+        color="#52d181"
         hairline
         :plain="!Boolean(incomeState == 1)"
         block
@@ -59,27 +59,27 @@
     <van-field v-model="message" label-width="0.8rem" rows="3" label="备注:" type="textarea" maxlength="50" placeholder="请输入备注!" show-word-limit />
     <!--支出 标签选项 -->
     <div class="tags" v-show="incomeState == 0">
-      <van-tag type="primary" color="#1bb5fe" size="large" :plain="!Boolean(tag_index == 0)" @click="changeTag(0)">服饰鞋帽</van-tag>
-      <van-tag type="primary" color="#1bb5fe" size="large" :plain="!Boolean(tag_index == 1)" @click="changeTag(1)">交通出行</van-tag>
-      <van-tag type="primary" color="#1bb5fe" size="large" :plain="!Boolean(tag_index == 2)" @click="changeTag(2)">食物小吃</van-tag>
-      <van-tag type="primary" color="#1bb5fe" size="large" :plain="!Boolean(tag_index == 3)" @click="changeTag(3)">学习提升</van-tag>
-      <van-tag type="primary" color="#1bb5fe" size="large" :plain="!Boolean(tag_index == 4)" @click="changeTag(4)">外出旅行</van-tag>
-      <van-tag type="primary" color="#1bb5fe" size="large" :plain="!Boolean(tag_index == 5)" @click="changeTag(5)">娱乐消费</van-tag>
-      <van-tag type="primary" color="#1bb5fe" size="large" :plain="!Boolean(tag_index == 6)" @click="changeTag(6)">其他项目</van-tag>
+      <van-tag type="primary" color="#de3126" size="large" :plain="!Boolean(tag_index == 0)" @click="changeTag(0)">服饰鞋帽</van-tag>
+      <van-tag type="primary" color="#de3126" size="large" :plain="!Boolean(tag_index == 1)" @click="changeTag(1)">交通出行</van-tag>
+      <van-tag type="primary" color="#de3126" size="large" :plain="!Boolean(tag_index == 2)" @click="changeTag(2)">食物小吃</van-tag>
+      <van-tag type="primary" color="#de3126" size="large" :plain="!Boolean(tag_index == 3)" @click="changeTag(3)">学习提升</van-tag>
+      <van-tag type="primary" color="#de3126" size="large" :plain="!Boolean(tag_index == 4)" @click="changeTag(4)">外出旅行</van-tag>
+      <van-tag type="primary" color="#de3126" size="large" :plain="!Boolean(tag_index == 5)" @click="changeTag(5)">娱乐消费</van-tag>
+      <van-tag type="primary" color="#de3126" size="large" :plain="!Boolean(tag_index == 6)" @click="changeTag(6)">其他项目</van-tag>
     </div>
 
     <!-- 收入 标签选项 -->
     <div class="tags" v-show="incomeState == 1">
-      <van-tag type="primary" color="#1bb5fe" size="large" :plain="!Boolean(tag_index == 0)" @click="changeTag(0)">工资薪金</van-tag>
-      <van-tag type="primary" color="#1bb5fe" size="large" :plain="!Boolean(tag_index == 1)" @click="changeTag(1)">奖金提成</van-tag>
-      <van-tag type="primary" color="#1bb5fe" size="large" :plain="!Boolean(tag_index == 2)" @click="changeTag(2)">偶然所得</van-tag>
-      <van-tag type="primary" color="#1bb5fe" size="large" :plain="!Boolean(tag_index == 3)" @click="changeTag(3)">投资收益</van-tag>
-      <van-tag type="primary" color="#1bb5fe" size="large" :plain="!Boolean(tag_index == 3)" @click="changeTag(4)">劳务报酬</van-tag>
-      <van-tag type="primary" color="#1bb5fe" size="large" :plain="!Boolean(tag_index == 4)" @click="changeTag(5)">其他项目</van-tag>
+      <van-tag type="primary" color="#52d181" size="large" :plain="!Boolean(tag_index == 0)" @click="changeTag(0)">工资薪金</van-tag>
+      <van-tag type="primary" color="#52d181" size="large" :plain="!Boolean(tag_index == 1)" @click="changeTag(1)">奖金提成</van-tag>
+      <van-tag type="primary" color="#52d181" size="large" :plain="!Boolean(tag_index == 2)" @click="changeTag(2)">偶然所得</van-tag>
+      <van-tag type="primary" color="#52d181" size="large" :plain="!Boolean(tag_index == 3)" @click="changeTag(3)">投资收益</van-tag>
+      <van-tag type="primary" color="#52d181" size="large" :plain="!Boolean(tag_index == 4)" @click="changeTag(4)">劳务报酬</van-tag>
+      <van-tag type="primary" color="#52d181" size="large" :plain="!Boolean(tag_index == 5)" @click="changeTag(5)">其他项目</van-tag>
     </div>
 
     <!-- 确认按钮 -->
-    <van-submit-bar button-text="确认添加" :price="+this.value * 100" @submit="onSubmit" button-color="#39a9ed" class="confirm" />
+    <van-submit-bar button-text="确认添加" :price="+this.value * 100" @submit="onSubmit" :button-color="incomeState == 0 ? '#de3126' : '#52d181'" class="confirm" />
   </div>
 </template>
 

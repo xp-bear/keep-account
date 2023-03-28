@@ -50,7 +50,7 @@
       <van-button
         icon="http://cdn.xxoutman.cn/pay-1679804063180.png?1679804063362"
         type="primary"
-        color="#1bb5fe"
+        color="#de3126"
         hairline
         :plain="!Boolean(incomeState == 0)"
         block
@@ -62,7 +62,7 @@
       <van-button
         icon="http://cdn.xxoutman.cn/income-1679804092077.png?1679804092248"
         type="primary"
-        color="#1bb5fe"
+        color="#52d181"
         hairline
         :plain="!Boolean(incomeState == 1)"
         block

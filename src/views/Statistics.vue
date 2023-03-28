@@ -8,7 +8,7 @@
       <van-button
         icon="http://cdn.xxoutman.cn/pay-1679804063180.png?1679804063362"
         type="primary"
-        color="#1bb5fe"
+        color="#de3126"
         hairline
         :plain="!Boolean(incomeState == 0)"
         block
@@ -20,7 +20,7 @@
       <van-button
         icon="http://cdn.xxoutman.cn/income-1679804092077.png?1679804092248"
         type="primary"
-        color="#1bb5fe"
+        color="#52d181"
         hairline
         :plain="!Boolean(incomeState == 1)"
         block
@@ -290,7 +290,8 @@ export default {
     margin: 0.1rem auto;
     .pay-title {
       font-size: 0.34rem;
-      color: rgba(51, 51, 51, 1);
+      // color: rgba(51, 51, 51, 1);
+      color: #fff;
       font-weight: 500;
     }
     .pay-info {
