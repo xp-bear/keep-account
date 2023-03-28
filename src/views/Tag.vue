@@ -310,16 +310,16 @@ export default {
             tag = "工资薪金";
             break;
           case 1:
-            tag = "劳务报酬";
+            tag = "奖金提成";
             break;
           case 2:
-            tag = "食物小吃";
-            break;
-          case 3:
             tag = "偶然所得";
             break;
+          case 3:
+            tag = "投资收益";
+            break;
           case 4:
-            tag = "企业红利";
+            tag = "劳务报酬";
             break;
           case 5:
             tag = "其他项目";
