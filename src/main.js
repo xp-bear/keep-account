@@ -60,7 +60,7 @@ Vue.prototype.$echarts = echarts;
 if (process.env.NODE_ENV == "development") {
   // 开发环境
   //配置默认IP地址
-  axios.defaults.baseURL = "http://127.0.0.1:9999";
+  axios.defaults.baseURL = "http://150.158.21.251:9999";
 } else {
   // 打包环境
   axios.defaults.baseURL = "http://150.158.21.251:9999";

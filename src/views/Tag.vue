@@ -31,7 +31,7 @@
           <div><van-icon name="down" size="16" color="#52d181" /></div>
           <div style="display: flex; flex-direction: column; margin: 0 0.4rem">
             <span style="color: rgba(119, 119, 125, 1); font-size: 0.22rem; margin-bottom: 0.1rem">年度收入</span>
-            <span style="font-size: 0.28rem; color: rgba(21, 20, 31, 1); font-weight: 700">¥{{ yearPay ? yearPay : 0 }}</span>
+            <span style="font-size: 0.28rem; color: rgba(21, 20, 31, 1); font-weight: 700">¥{{ yaerIncome ? yaerIncome : 0 }}</span>
           </div>
         </div>
         <div class="center" style="width: 0.01rem; height: 100%; background-color: rgba(232, 235, 238, 1)"></div>
@@ -39,7 +39,7 @@
           <div><van-icon name="down" size="16" color="#db1f26" style="transform: rotate(180deg)" /></div>
           <div style="display: flex; flex-direction: column; margin: 0 0.4rem">
             <span style="color: rgba(119, 119, 125, 1); font-size: 0.22rem; margin-bottom: 0.1rem">年度支出</span>
-            <span style="font-size: 0.28rem; color: rgba(21, 20, 31, 1); font-weight: 700">¥{{ yaerIncome ? yaerIncome : 0 }}</span>
+            <span style="font-size: 0.28rem; color: rgba(21, 20, 31, 1); font-weight: 700">¥{{ yearPay ? yearPay : 0 }}</span>
           </div>
         </div>
       </div>
@@ -213,6 +213,7 @@ export default {
         this.selectMonth = ""; //选择月份置为空。
         this.totalMoney = 0;
         this.getInitData();
+        this.getYearData(); //重新请求年度接口数据
       });
     },
     month_cancel() {
