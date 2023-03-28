@@ -79,7 +79,7 @@
 
     <!-- 查询日期消费金额 -->
     <van-collapse v-model="activeNames" v-if="selectDate">
-      <van-collapse-item icon="shop-o">
+      <van-collapse-item icon="shop-o" v-if="datas.length > 0">
         <template #title>
           <div style="display: flex; justify-content: space-between; align-items: center; vertical-align: bottom">
             <span style="letter-spacing: 0.012em; line-height: 0.48rem">{{ selectDate }}</span>
@@ -96,6 +96,9 @@
           </li>
         </ul>
       </van-collapse-item>
+
+      <!-- 日期空状态显示 -->
+      <van-empty v-else class="custom-image" image="http://cdn.xxoutman.cn/empty-1680012688890.gif" description="该日期暂无记录" />
     </van-collapse>
 
     <!-- 按月份查询 -->
@@ -125,6 +128,9 @@
           </li>
         </ul>
       </van-collapse-item>
+
+      <!-- 空状态显示 -->
+      <van-empty v-if="Object.keys(monthDatas).length === 0" class="custom-image" image="http://cdn.xxoutman.cn/empty-1680012743090.gif" description="未查询到当月数据" />
     </van-collapse>
 
     <!-- 动作面板 -->
@@ -138,7 +144,7 @@ export default {
   components: {},
   data() {
     return {
-      activeNames: ["0"],
+      activeNames: [0],
       activeMonthNames: [""],
       totalMoney: 0, //每一天金额的统计总数.
       datas: [], //每一天的消费查询
@@ -266,11 +272,11 @@ export default {
       // 请求查询的时间
       this.$axios.get(`/account/searchday?date=${this.selectDate}&flag=${this.incomeState}`).then((res) => {
         this.datas = res.data;
-        if (this.datas.length <= 0) {
-          this.activeNames = ["0"];
-        } else {
-          this.activeNames = ["1"];
-        }
+        // if (this.datas.length <= 0) {
+        //   this.activeNames = ["0"];
+        // } else {
+        //   this.activeNames = ["1"];
+        // }
         this.date = this.$dayjs(res.data[0]?.record_create_time).format("YYYY-MM-DD"); //处理时间格式
         res.data.forEach((item) => {
           this.totalMoney += +item.record_money;
