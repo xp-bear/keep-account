@@ -69,6 +69,9 @@ export default {
   mounted() {
     // 请求天数数据接口
     console.log(111);
+
+
+    
   },
   methods: {},
 };

@@ -57,8 +57,8 @@
         <template #title>
           <div style="display: flex; justify-content: space-between; align-items: center; vertical-align: bottom">
             <span style="letter-spacing: 0.012em; line-height: 0.48rem">{{ selectDate }}</span>
-            <span v-show="incomeState == 0" style="color: red; font-weight: 700">总消费: <van-icon name="balance-o" size="16" />{{ totalMoney }}</span>
-            <span v-show="incomeState == 1" style="color: green; font-weight: 700">总收入: <van-icon name="balance-o" size="16" />{{ totalMoney }}</span>
+            <span v-show="incomeState == 0" style="color: red; font-weight: 700">总消费: <van-icon name="balance-o" size="16" />{{ Math.round(totalMoney * 100) / 100 }}</span>
+            <span v-show="incomeState == 1" style="color: green; font-weight: 700">总收入: <van-icon name="balance-o" size="16" />{{ Math.round(totalMoney * 100) / 100 }}</span>
           </div>
         </template>
         <ul class="detail">
@@ -84,8 +84,8 @@
         <template #title>
           <div style="display: flex; justify-content: space-between; align-items: center; vertical-align: bottom">
             <span style="letter-spacing: 0.012em; line-height: 0.48rem">{{ timeFormat(key) }}</span>
-            <span v-show="incomeState == 0" style="color: red; font-weight: 700">总消费: <van-icon name="balance-o" size="16" />{{ value[value.length - 1] }}</span>
-            <span v-show="incomeState == 1" style="color: green; font-weight: 700">总收入: <van-icon name="balance-o" size="16" />{{ value[value.length - 1] }}</span>
+            <span v-show="incomeState == 0" style="color: red; font-weight: 700">总消费: <van-icon name="balance-o" size="16" />{{ Math.round(value[value.length - 1] * 100) / 100 }}</span>
+            <span v-show="incomeState == 1" style="color: green; font-weight: 700">总收入: <van-icon name="balance-o" size="16" />{{ Math.round(value[value.length - 1] * 100) / 100 }}</span>
           </div>
         </template>
         <ul class="detail">

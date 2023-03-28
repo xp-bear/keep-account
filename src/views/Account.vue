@@ -78,7 +78,7 @@
     </div>
 
     <!-- 确认按钮 -->
-    <van-submit-bar button-text="确认添加" @submit="onSubmit" button-color="#39a9ed" class="confirm" />
+    <van-submit-bar button-text="确认添加" :price="+this.value * 100" @submit="onSubmit" button-color="#39a9ed" class="confirm" />
   </div>
 </template>
 

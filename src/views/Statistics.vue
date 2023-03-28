@@ -145,7 +145,7 @@ export default {
             counter += 1; //记账笔数+1
             total += +item.record_money; //增加每一笔记账的金额
           });
-          this.lineChartY.push(totalMoney);
+          this.lineChartY.push(Math.round(totalMoney * 100) / 100);
           this.accountNumber = counter;
           this.accountTotalMoney = total;
           // console.log("记账笔数: ", this.accountNumber, this.accountTotalMoney);
