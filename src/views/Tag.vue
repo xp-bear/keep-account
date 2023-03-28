@@ -4,7 +4,7 @@
     <van-button type="primary" color="#e8e8e8" block class="title">记录查询</van-button>
 
     <!-- 轮播图 -->
-    <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
+    <!-- <van-swipe class="my-swipe" :autoplay="2000" indicator-color="white">
       <van-swipe-item>
         <img src="http://cdn.xxoutman.cn/image-1679842151298.png?1679842151834" alt="" style="width: 100%; object-fit: cover" />
       </van-swipe-item>
@@ -17,7 +17,33 @@
       <van-swipe-item>
         <img src="http://cdn.xxoutman.cn/image-1679842048569.png?1679842049064" alt="" style="width: 100%; object-fit: cover" />
       </van-swipe-item>
-    </van-swipe>
+    </van-swipe> -->
+
+    <!-- 本年信息展示 -->
+    <div class="card">
+      <div class="analy">年度金额统计分析</div>
+      <div style="display: flex; align-items: center; justify-content: center; height: 0.6rem">
+        <input type="number" v-model="yearNumber" @blur="getYearFn" />
+        <span style="font-family: xp">年</span>
+      </div>
+      <div class="info">
+        <div class="left">
+          <div><van-icon name="down" size="16" color="#52d181" /></div>
+          <div style="display: flex; flex-direction: column; margin: 0 0.4rem">
+            <span style="color: rgba(119, 119, 125, 1); font-size: 0.22rem; margin-bottom: 0.1rem">年度收入</span>
+            <span style="font-size: 0.28rem; color: rgba(21, 20, 31, 1); font-weight: 700">¥{{ yearPay ? yearPay : 0 }}</span>
+          </div>
+        </div>
+        <div class="center" style="width: 0.01rem; height: 100%; background-color: rgba(232, 235, 238, 1)"></div>
+        <div class="right">
+          <div><van-icon name="down" size="16" color="#db1f26" style="transform: rotate(180deg)" /></div>
+          <div style="display: flex; flex-direction: column; margin: 0 0.4rem">
+            <span style="color: rgba(119, 119, 125, 1); font-size: 0.22rem; margin-bottom: 0.1rem">年度支出</span>
+            <span style="font-size: 0.28rem; color: rgba(21, 20, 31, 1); font-weight: 700">¥{{ yaerIncome ? yaerIncome : 0 }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- 标题选项 -->
     <div class="income">
@@ -130,12 +156,32 @@ export default {
       ActionShow: false, //动作面板展开状态。
       actions: [{ name: "删除该条记录", color: "#ee0a24" }],
       dataOnce: {}, //一条数据
+
+      yearNumber: this.$dayjs(new Date()).format("YYYY"), //默认年度
+      yearPay: 0, //支出
+      yaerIncome: 0, //收入
     };
   },
   mounted() {
     this.getInitData();
+    this.getYearData();
   },
   methods: {
+    // 请求每一个的消费情况
+    getYearFn() {
+      this.getYearData();
+    },
+    // 请求年度数据
+    getYearData() {
+      this.$axios.get(`/account/searchyear?year=${this.yearNumber}&flag=0`).then((res) => {
+        this.yearPay = res.data[0].total_money;
+      });
+      this.$axios.get(`/account/searchyear?year=${this.yearNumber}&flag=1`).then((res) => {
+        // console.log(res.data);
+        this.yaerIncome = res.data[0].total_money;
+      });
+    },
+
     // 请求初始数据
     getInitData() {
       this.selectDate = this.formatDate(new Date());
@@ -306,6 +352,76 @@ export default {
   .title {
     .van-button__text {
       color: black;
+    }
+  }
+  .card {
+    overflow: hidden;
+    width: 7.5rem;
+    height: 3.1rem;
+    // margin: 0.2rem auto;
+    padding: 0 0.2rem;
+    box-sizing: border-box;
+    // border-radius: 0.16rem;
+    background-color: #8ec5fc;
+    background-image: linear-gradient(62deg, #8ec5fc 0%, #e0c3fc 100%);
+    .analy {
+      margin-top: 0.2rem;
+      width: 6.7rem;
+      height: 0.4rem;
+      line-height: 0.4rem;
+      text-align: center;
+      letter-spacing: 0.02rem;
+      font-size: 0.24rem;
+    }
+    input {
+      width: 1.5rem;
+      height: 0.4rem;
+      border: 0;
+      font-size: 0.4rem;
+      font-family: digital;
+      border-radius: 0.1rem;
+      margin-right: 0.1rem;
+      text-align: center;
+      background-color: transparent;
+      border: 0.01rem solid #fff;
+    }
+    .info {
+      width: 6.22rem;
+      margin: 0.2rem auto 0;
+      height: 1.44rem;
+      background-color: #fff;
+      border-radius: 0.16rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-sizing: border-box;
+      padding: 0.28rem 0.4rem;
+      .left {
+        display: flex;
+        align-items: center;
+        .van-icon {
+          width: 0.56rem;
+          height: 0.56rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: #e5f8ec;
+          border-radius: 0.08rem;
+        }
+      }
+      .right {
+        display: flex;
+        align-items: center;
+      }
+      .van-icon {
+        width: 0.56rem;
+        height: 0.56rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #fbe4e5;
+        border-radius: 0.08rem;
+      }
     }
   }
   .income {

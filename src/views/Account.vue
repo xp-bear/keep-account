@@ -71,10 +71,11 @@
     <!-- 收入 标签选项 -->
     <div class="tags" v-show="incomeState == 1">
       <van-tag type="primary" color="#1bb5fe" size="large" :plain="!Boolean(tag_index == 0)" @click="changeTag(0)">工资薪金</van-tag>
-      <van-tag type="primary" color="#1bb5fe" size="large" :plain="!Boolean(tag_index == 1)" @click="changeTag(1)">劳务报酬</van-tag>
+      <van-tag type="primary" color="#1bb5fe" size="large" :plain="!Boolean(tag_index == 1)" @click="changeTag(1)">奖金提成</van-tag>
       <van-tag type="primary" color="#1bb5fe" size="large" :plain="!Boolean(tag_index == 2)" @click="changeTag(2)">偶然所得</van-tag>
-      <van-tag type="primary" color="#1bb5fe" size="large" :plain="!Boolean(tag_index == 3)" @click="changeTag(3)">企业红利</van-tag>
-      <van-tag type="primary" color="#1bb5fe" size="large" :plain="!Boolean(tag_index == 4)" @click="changeTag(4)">其他项目</van-tag>
+      <van-tag type="primary" color="#1bb5fe" size="large" :plain="!Boolean(tag_index == 3)" @click="changeTag(3)">投资收益</van-tag>
+      <van-tag type="primary" color="#1bb5fe" size="large" :plain="!Boolean(tag_index == 3)" @click="changeTag(4)">劳务报酬</van-tag>
+      <van-tag type="primary" color="#1bb5fe" size="large" :plain="!Boolean(tag_index == 4)" @click="changeTag(5)">其他项目</van-tag>
     </div>
 
     <!-- 确认按钮 -->

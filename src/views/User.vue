@@ -15,15 +15,15 @@
         <!-- 下面信息区域 -->
         <div class="info">
           <div class="info-label">
-            <span>15</span>
+            <span>{{ totalDay }}</span>
             <span>记账天数</span>
           </div>
           <div class="info-label">
-            <span>26351</span>
+            <span>¥{{ userDataObj && formatMoneyTwo(userDataObj.totalMoney) }}</span>
             <span>记账总金额</span>
           </div>
           <div class="info-label">
-            <span>321</span>
+            <span>{{ userDataObj && userDataObj.totalCount }}</span>
             <span>记账总共笔</span>
           </div>
         </div>
@@ -61,19 +61,28 @@
 </template>
 
 <script>
+import { formatMoneyTwo } from "../utils/tools";
 export default {
   name: "User",
   data() {
-    return {};
+    return {
+      userDataObj: null, //首页数据
+      totalDay: 0, //记账天数
+    };
   },
   mounted() {
     // 请求天数数据接口
-    console.log(111);
+    // { totalCount:"xx" , totalMoney:'xx' }
+    this.$axios.get("/account/searchuser").then((res) => {
+      this.userDataObj = res.data[0];
+    });
 
-
-    
+    // 请求天数接口
+    this.$axios.get("/account/searchtotalday").then((res) => {
+      this.totalDay = res.data.totalDay;
+    });
   },
-  methods: {},
+  methods: { formatMoneyTwo },
 };
 </script>
 

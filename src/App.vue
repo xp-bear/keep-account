@@ -41,4 +41,9 @@ export default {
   font-family: siyuan;
   src: url("http://cdn.xxoutman.cn/siyuan.ttf");
 }
+// 自定义字体
+@font-face {
+  font-family: digital;
+  src: url("http://cdn.xxoutman.cn/digital.TTF");
+}
 </style>

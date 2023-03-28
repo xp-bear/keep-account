@@ -43,7 +43,7 @@
       <div style="display: flex; justify-content: space-evenly; margin-top: 0.1rem">
         <div class="pay-info">
           <span>共计支出</span>
-          <span>¥{{ accountTotalMoney }}</span>
+          <span>¥{{ formatMoneyTwo(accountTotalMoney) }}</span>
         </div>
         <div class="pay-info">
           <span>记账笔数</span>
@@ -60,7 +60,7 @@
       <div style="display: flex; justify-content: space-evenly; margin-top: 0.1rem">
         <div class="pay-info">
           <span>共计收入</span>
-          <span>¥{{ accountTotalMoney }}</span>
+          <span>¥{{ formatMoneyTwo(accountTotalMoney) }}</span>
         </div>
         <div class="pay-info">
           <span>记账笔数</span>
@@ -79,6 +79,7 @@
 </template>
 
 <script>
+import { formatMoneyTwo } from "../utils/tools";
 export default {
   name: "Statistics",
   data() {
@@ -113,6 +114,7 @@ export default {
     }, 300);
   },
   methods: {
+    formatMoneyTwo,
     // 收入与支出金额显示
     dayIncome(money, number) {
       return number == 0 ? 0 : (money / number).toFixed(2);
