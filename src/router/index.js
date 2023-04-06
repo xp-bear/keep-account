@@ -40,4 +40,5 @@ const router = new VueRouter({
   routes,
 });
 
+// 路由守卫,判断用户有没有登录
 export default router;

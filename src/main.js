@@ -24,7 +24,12 @@ import { Popup } from "vant";
 import { ActionSheet } from "vant";
 import { Empty } from "vant";
 import { Picker } from "vant";
+import { Form } from "vant";
+import { RadioGroup, Radio } from "vant";
 
+Vue.use(Radio);
+Vue.use(RadioGroup);
+Vue.use(Form);
 Vue.use(Picker);
 Vue.use(Empty);
 Vue.use(ActionSheet);
@@ -60,7 +65,7 @@ Vue.prototype.$echarts = echarts;
 if (process.env.NODE_ENV == "development") {
   // 开发环境
   //配置默认IP地址
-  axios.defaults.baseURL = "http://150.158.21.251:9999";
+  axios.defaults.baseURL = "http://127.0.0.1:9999";
 } else {
   // 打包环境
   axios.defaults.baseURL = "http://150.158.21.251:9999";

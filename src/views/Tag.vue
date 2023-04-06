@@ -75,7 +75,7 @@
 
     <!-- 查询日期选择 -->
     <van-cell title="按日期查询" :value="selectDate" @click="selectDateShow = true" is-link />
-    <van-calendar color="#1bb5fe" v-model="selectDateShow" @confirm="onConfirm" :min-date="new Date('2023/1/1')" />
+    <van-calendar color="#1bb5fe" v-model="selectDateShow" @confirm="onConfirm" :min-date="dayMinData" />
 
     <!-- 查询日期消费金额 -->
     <van-collapse v-model="activeNames" v-if="selectDate">
@@ -88,7 +88,7 @@
           </div>
         </template>
         <ul class="detail">
-          <li v-for="item in datas" :key="item.record_id" @click="changeActionPanel(item)">
+          <li v-for="item in datas" :key="item.record_id" @click="changeActionPanel()" @touchstart="gtouchstart(item)" @touchmove="gtouchmove()" @touchend="showDeleteButton(item)">
             <span>{{ tagValue(item.record_tag) }}</span>
             <span>{{ item.record_time }}</span>
             <span>{{ item.record_comment }}</span>
@@ -118,7 +118,8 @@
           </div>
         </template>
         <ul class="detail">
-          <li v-for="(item, index) in value" :key="item.record_id" @click="changeActionPanel(item)">
+          <!-- 每一个列表长按 移动端事件 -->
+          <li v-for="(item, index) in value" :key="item.record_id" @click="changeActionPanel()" @touchstart="gtouchstart(item)" @touchmove="gtouchmove()" @touchend="showDeleteButton(item)">
             <template v-if="index < value.length - 1">
               <span>{{ tagValue(item.record_tag) }}</span>
               <span>{{ item.record_time }}</span>
@@ -135,6 +136,43 @@
 
     <!-- 动作面板 -->
     <van-action-sheet v-model="ActionShow" :actions="actions" @select="onSelect" description="是否要删除当前该条记录？" cancel-text="取消" />
+
+    <!-- 对话框弹出层,修改当前数据 -->
+    <van-popup v-model="showPopup" style="border-radius: 0.3rem">
+      <div style="width: 7rem">
+        <div v-show="incomeState == 0" style="text-align: center; padding-top: 0.2rem; font-family: consolas; font-weight: 700; color: red">支出详情</div>
+        <div v-show="incomeState == 1" style="text-align: center; padding-top: 0.2rem; font-family: consolas; font-weight: 700; color: green">收入详情</div>
+        <van-form @submit="onSubmit">
+          <van-field v-model="up_date" name="日期" label="日期:" :rules="[{ required: true, message: '请填写日期' }]" />
+          <!-- <van-field v-model="up_type" name="类别" label="类别:" :rules="[{ required: true, message: '请填写类别' }]" /> -->
+          <van-field v-model="up_money" name="金额" label="金额:" :rules="[{ required: true, message: '请填写金额' }]" />
+          <van-field v-model="up_comment" name="备注" label="备注:" :rules="[{ required: true, message: '请填写备注' }]" />
+          <!-- 类别选择 支出 -->
+          <van-radio-group v-if="incomeState == 0" v-model="up_type" direction="horizontal" style="padding: 0 0.32rem; font-size: 0.32rem">
+            <van-radio name="0" icon-size="0.32rem" checked-color="#de3126">服饰鞋帽</van-radio>
+            <van-radio name="1" icon-size="0.32rem" checked-color="#de3126">交通出行</van-radio>
+            <van-radio name="2" icon-size="0.32rem" checked-color="#de3126">食物小吃</van-radio>
+            <van-radio name="3" icon-size="0.32rem" checked-color="#de3126">学习提升</van-radio>
+            <van-radio name="4" icon-size="0.32rem" checked-color="#de3126">外出旅行</van-radio>
+            <van-radio name="5" icon-size="0.32rem" checked-color="#de3126">娱乐消费</van-radio>
+            <van-radio name="6" icon-size="0.32rem" checked-color="#de3126">其他项目</van-radio>
+          </van-radio-group>
+          <!-- 类别选择 收入 -->
+          <van-radio-group v-else v-model="up_type" direction="horizontal" style="padding: 0 0.32rem; font-size: 0.32rem">
+            <van-radio name="0" icon-size="0.32rem" checked-color="#52d181">工资薪金</van-radio>
+            <van-radio name="1" icon-size="0.32rem" checked-color="#52d181">奖金提成</van-radio>
+            <van-radio name="2" icon-size="0.32rem" checked-color="#52d181">偶然所得</van-radio>
+            <van-radio name="3" icon-size="0.32rem" checked-color="#52d181">投资收益</van-radio>
+            <van-radio name="4" icon-size="0.32rem" checked-color="#52d181">劳务报酬</van-radio>
+            <van-radio name="5" icon-size="0.32rem" checked-color="#52d181">其他项目</van-radio>
+          </van-radio-group>
+
+          <div style="margin: 0.32rem">
+            <van-button round block type="info" native-type="submit" size="small" :color="incomeState == 0 ? '#de3126' : '#52d181'">确认修改</van-button>
+          </div>
+        </van-form>
+      </div>
+    </van-popup>
   </div>
 </template>
 
@@ -154,18 +192,31 @@ export default {
       // 月份
       minDate: new Date(2023, 0, 1),
       maxDate: new Date(2030, 11, 30),
+      // 日期的minData
+      dayMinData: new Date(this.$dayjs(new Date()).format("YYYY"), +this.$dayjs(new Date()).format("MM") - 3, this.$dayjs(new Date()).format("DD")),
       currentDate: "",
       monthPanelState: false, //月份面板状态
       selectMonth: "", //选择的月份 2023/11月
       monthDatas: {}, //当前月份数据
 
       ActionShow: false, //动作面板展开状态。
-      actions: [{ name: "删除该条记录", color: "#ee0a24" }],
-      dataOnce: {}, //一条数据
+      actions: [{ name: "删除", color: "#ee0a24" }],
 
       yearNumber: this.$dayjs(new Date()).format("YYYY"), //默认年度
       yearPay: 0, //支出
       yaerIncome: 0, //收入
+
+      timeOutEvent: null, //定时器状态
+      showPopup: false, //对话框默认状态
+
+      // 修改数据绑定的值
+      up_date: "", //修改的日期
+      up_type: "", // 类别
+      up_money: "", //金额
+      up_comment: "", //备注
+      up_id: -1, //要删除数据的id
+
+      radio: "1",
     };
   },
   mounted() {
@@ -173,6 +224,41 @@ export default {
     this.getYearData();
   },
   methods: {
+    onConfirmTag(value, index) {
+      Toast(`当前值：${value}, 当前索引：${index}`);
+    },
+    onChangeTag(picker, value, index) {
+      Toast(`当前值：${value}, 当前索引：${index}`);
+    },
+    onCancelTag() {
+      Toast("取消");
+    },
+    // 修改数据的对话框点击确认按钮
+    onSubmit() {
+      this.showPopup = false; //关闭对话框
+      this.$axios
+        .post("/account/update", {
+          record_state: this.incomeState,
+          record_id: this.up_id,
+          record_comment: this.up_comment,
+          record_money: this.up_money,
+          record_tag: +this.up_type,
+        })
+        .then((res) => {
+          // 修改数据
+          this.$toast.success({
+            message: "修改成功",
+            forbidClick: true,
+            duration: "1000",
+          });
+          // 请求初始数据
+          this.totalMoney = 0;
+          this.getInitData();
+          this.getYearData();
+          this.getMonthDatas(); //初始月分数据
+        });
+    },
+
     // 请求每一个的消费情况
     getYearFn() {
       this.getYearData();
@@ -201,8 +287,48 @@ export default {
         });
       });
     },
-    changeActionPanel(item) {
-      this.dataOnce = item;
+
+    //长按事件（起始）
+    gtouchstart(item) {
+      var self = this;
+      this.timeOutEvent = setTimeout(function () {
+        self.longPress(item);
+      }, 500); //这里设置定时器，定义长按500毫秒触发长按事件
+      return false;
+    },
+    //真正长按后应该执行的内容
+    longPress(item) {
+      this.timeOutEvent = 0; //重置定时器状态
+      //执行长按要执行的内容，如弹出菜单
+      // 打开弹出层
+      this.showPopup = true;
+
+      // 进行赋值操作
+      this.up_date = this.$dayjs(item.record_create_time).format("YYYY-MM-DD") + " " + item.record_time;
+      this.up_type = item.record_tag + "";
+      this.up_money = item.record_money;
+      this.up_comment = item.record_comment;
+      this.up_id = item.record_id;
+
+      console.log("长按", this.up_type);
+    },
+    //如果手指有移动，则取消所有事件，此时说明用户只是要移动而不是长按
+    gtouchmove() {
+      clearTimeout(this.timeOutEvent); //清除定时器
+      this.timeOutEvent = 0;
+    },
+    //手释放，如果在500毫秒内就释放，则取消长按事件，此时可以执行onclick应该执行的事件
+    showDeleteButton(item) {
+      clearTimeout(this.timeOutEvent); //清除定时器
+      if (this.timeOutEvent != 0) {
+        //这里写要执行的内容（如onclick事件）
+        console.log("点击但未长按");
+      }
+      return false;
+    },
+
+    // 点击每一个详细列表出来弹出层。
+    changeActionPanel() {
       this.ActionShow = true;
     },
     onSelect() {
@@ -231,6 +357,10 @@ export default {
       this.monthPanelState = false;
 
       // 请求查询的月份
+      this.getMonthDatas();
+    },
+    // 请求查询的月份
+    getMonthDatas() {
       this.$axios.get(`/account/searchmonth?monthdata=${this.selectMonth}&flag=${this.incomeState}`).then((res) => {
         this.monthDatas = res.data;
 

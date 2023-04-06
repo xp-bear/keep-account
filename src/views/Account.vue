@@ -181,7 +181,7 @@ export default {
             this.tag_index = 0;
             this.$toast.success({
               message: "添加成功",
-              forbidClick: true,
+              forbidClick: false,
               duration: "1000",
             });
           });
