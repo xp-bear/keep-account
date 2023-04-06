@@ -73,11 +73,11 @@
       </van-button>
     </div>
 
-    <!-- 查询日期选择 -->
+    <!-- 按日期查询 -->
     <van-cell title="按日期查询" :value="selectDate" @click="selectDateShow = true" is-link />
     <van-calendar color="#1bb5fe" v-model="selectDateShow" @confirm="onConfirm" :min-date="dayMinData" />
 
-    <!-- 查询日期消费金额 -->
+    <!-- 查询日期详细列表 -->
     <van-collapse v-model="activeNames" v-if="selectDate">
       <van-collapse-item icon="shop-o" v-if="datas.length > 0">
         <template #title>
@@ -107,7 +107,7 @@
       <van-datetime-picker v-model="currentDate" @cancel="month_cancel" @confirm="month_confirm" type="year-month" title="选择月份" :min-date="minDate" :max-date="maxDate" :formatter="formatter" />
     </van-popup>
 
-    <!-- 月份查询 -->
+    <!-- 月份查询详细列表 -->
     <van-collapse v-model="activeMonthNames" v-if="selectMonth" style="padding-bottom: 1.12rem">
       <van-collapse-item icon="shop-o" v-for="(value, key) in monthDatas" :index="key">
         <template #title>
@@ -134,6 +134,37 @@
       <van-empty v-if="Object.keys(monthDatas).length === 0" class="custom-image" image="http://cdn.xxoutman.cn/empty-1680012743090.gif" description="未查询到当月数据" />
     </van-collapse>
 
+    <!-- 按类别查询 -->
+    <van-cell title="按类别查询" :value="typeValue" @click="isTypeShow = true" is-link />
+
+    <!-- 类别查询详细列表 -->
+    <van-collapse v-model="activeMonthNames" v-if="typeValue" style="padding-bottom: 1.12rem">
+      <van-collapse-item icon="shop-o" v-for="(value, key) in typeDatas" :index="key">
+        <template #title>
+          <div style="display: flex; justify-content: space-between; align-items: center; vertical-align: bottom">
+            <span style="letter-spacing: 0.012em; line-height: 0.48rem">{{ timeFormat(key) }}</span>
+            <span v-show="incomeState == 0" style="color: red; font-weight: 700">总消费: <van-icon name="balance-o" size="16" />{{ Math.round(value[value.length - 1] * 100) / 100 }}</span>
+            <span v-show="incomeState == 1" style="color: green; font-weight: 700">总收入: <van-icon name="balance-o" size="16" />{{ Math.round(value[value.length - 1] * 100) / 100 }}</span>
+          </div>
+        </template>
+        <ul class="detail">
+          <!-- 每一个列表长按 移动端事件 -->
+          <li v-for="(item, index) in value" :key="item.record_id" @click="changeActionPanel()" @touchstart="gtouchstart(item)" @touchmove="gtouchmove()" @touchend="showDeleteButton(item)">
+            <template v-if="index < value.length - 1">
+              <span>{{ tagValue(item.record_tag) }}</span>
+              <span>{{ item.record_time }}</span>
+              <span>{{ item.record_comment }}</span>
+              <span style="width: 20%">¥ {{ item.record_money }}</span>
+            </template>
+          </li>
+        </ul>
+      </van-collapse-item>
+
+      <!-- 空状态显示 -->
+      <van-empty v-if="Object.keys(typeDatas).length === 0" class="custom-image" image="http://cdn.xxoutman.cn/empty-1680775619747.gif?1680775620066" description="该类别未查询到数据" />
+    </van-collapse>
+
+    <!-- -------------------------------------- -->
     <!-- 动作面板 -->
     <van-action-sheet v-model="ActionShow" :actions="actions" @select="onSelect" description="是否要删除当前该条记录？" cancel-text="取消" />
 
@@ -173,6 +204,11 @@
         </van-form>
       </div>
     </van-popup>
+
+    <!-- 底部弹出对话框,查询条件 -->
+    <van-popup v-model="isTypeShow" position="bottom" :style="{ height: '50%' }">
+      <van-picker title="按类别查询" show-toolbar :columns="incomeState == 0 ? payColumns : incomeColumns" @confirm="onConfirmTag" @cancel="onCancelTag" />
+    </van-popup>
   </div>
 </template>
 
@@ -198,7 +234,7 @@ export default {
       monthPanelState: false, //月份面板状态
       selectMonth: "", //选择的月份 2023/11月
       monthDatas: {}, //当前月份数据
-
+      dataOnce: "", //一条数据
       ActionShow: false, //动作面板展开状态。
       actions: [{ name: "删除", color: "#ee0a24" }],
 
@@ -216,7 +252,42 @@ export default {
       up_comment: "", //备注
       up_id: -1, //要删除数据的id
 
-      radio: "1",
+      isTypeShow: false, //按类别查询状态对话框
+      payColumns: [
+        // 第一列
+        {
+          values: ["服饰鞋帽", "交通出行", "食物小吃", "学习提升", "外出旅行", "娱乐消费", "其他项目"],
+          defaultIndex: 2,
+        },
+        // 第二列
+        {
+          values: ["2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"],
+          defaultIndex: 1,
+        },
+        {
+          values: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
+          defaultIndex: 5,
+        },
+      ],
+      incomeColumns: [
+        // 第一列
+        {
+          values: ["工资薪金", "奖金提成", "偶然所得", "投资收益", "劳务报酬", "娱乐消费", "其他项目"],
+          defaultIndex: 2,
+        },
+        // 第二列
+        {
+          values: ["2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"],
+          defaultIndex: 1,
+        },
+        {
+          values: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
+          defaultIndex: 1,
+        },
+      ],
+      typeValue: "", //类别数据展示
+      typeDatas: {}, //当前月份类别数据
+      typeArr: [],
     };
   },
   mounted() {
@@ -224,14 +295,34 @@ export default {
     this.getYearData();
   },
   methods: {
+    // 类别查询确认
     onConfirmTag(value, index) {
-      Toast(`当前值：${value}, 当前索引：${index}`);
+      // console.log(`当前值：${value}, 当前索引：${index}`);
+      this.isTypeShow = false;
+      this.typeValue = value.join(",");
+      this.getTypeData(value[1], value[2], index[0]);
+      this.typeArr = this.typeArr.concat([value[1], value[2], index[0]]);
     },
-    onChangeTag(picker, value, index) {
-      Toast(`当前值：${value}, 当前索引：${index}`);
+
+    getTypeData(year, month, tag) {
+      // 请求类别月份数据
+      this.$axios.get(`/account/searchmonth?monthdata=${year}/${month}&flag=${this.incomeState}&tag=${tag}`).then((res) => {
+        this.typeDatas = res.data;
+
+        for (let key in this.typeDatas) {
+          let totalMoney = 0;
+          this.typeDatas[key].forEach((item) => {
+            totalMoney += +item.record_money;
+          });
+          this.typeDatas[key].push(totalMoney);
+        }
+        // console.log(this.typeDatas);
+      });
     },
+    //类别查询取消
     onCancelTag() {
-      Toast("取消");
+      // console.log("取消");
+      this.isTypeShow = false;
     },
     // 修改数据的对话框点击确认按钮
     onSubmit() {
@@ -256,6 +347,7 @@ export default {
           this.getInitData();
           this.getYearData();
           this.getMonthDatas(); //初始月分数据
+          this.getTypeData(...this.typeArr); //初始类别数据
         });
     },
 
@@ -290,6 +382,8 @@ export default {
 
     //长按事件（起始）
     gtouchstart(item) {
+      this.dataOnce = item; //赋值
+
       var self = this;
       this.timeOutEvent = setTimeout(function () {
         self.longPress(item);
@@ -322,7 +416,7 @@ export default {
       clearTimeout(this.timeOutEvent); //清除定时器
       if (this.timeOutEvent != 0) {
         //这里写要执行的内容（如onclick事件）
-        console.log("点击但未长按");
+        // console.log("点击但未长按");
       }
       return false;
     },
@@ -331,6 +425,7 @@ export default {
     changeActionPanel() {
       this.ActionShow = true;
     },
+    // 点击动态面板删除之后执行的操作
     onSelect() {
       // console.log(this.dataOnce);
       this.ActionShow = false;
@@ -343,14 +438,17 @@ export default {
         });
         this.selectDate = ""; //选择日期置为空。
         this.selectMonth = ""; //选择月份置为空。
+        this.typeValue = ""; //重置类别value
         this.totalMoney = 0;
         this.getInitData();
         this.getYearData(); //重新请求年度接口数据
       });
     },
+    // 按月份查询取消。
     month_cancel() {
       this.monthPanelState = false;
     },
+    // 按月份查询确认。
     month_confirm() {
       this.selectMonth = this.$dayjs(this.currentDate).format("YYYY/MM");
       // console.log(this.selectMonth); //月份
@@ -386,10 +484,12 @@ export default {
     switchChangeIncome(value) {
       this.selectDate = ""; // 重置查询的日期
       this.selectMonth = ""; //重置查询的月份
+      this.typeValue = ""; //重置类别显示
       this.totalMoney = 0; //初始金额为0
       this.incomeState = value; //赋值操作
       this.getInitData();
     },
+    // 格式化日期格式。
     formatDate(date) {
       return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
     },
