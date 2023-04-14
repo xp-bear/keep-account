@@ -51,7 +51,7 @@
         </div>
         <div class="pay-info">
           <span>日均支出</span>
-          <span>¥{{ dayIncome(accountTotalMoney, accountNumber) }}</span>
+          <span>¥{{ dayIncome(accountTotalMoney, this.$dayjs(new Date()).format("D")) }}</span>
         </div>
       </div>
     </div>
@@ -68,7 +68,7 @@
         </div>
         <div class="pay-info">
           <span>日均收入</span>
-          <span>¥{{ dayIncome(accountTotalMoney, accountNumber) }}</span>
+          <span>¥{{ dayIncome(accountTotalMoney, this.$dayjs(new Date()).format("D")) }}</span>
         </div>
       </div>
     </div>
