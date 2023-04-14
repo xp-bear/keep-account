@@ -1,7 +1,7 @@
 <template>
   <div class="Tag">
     <!-- 头部标题 -->
-    <van-button type="primary" color="#e8e8e8" block class="title">记录查询</van-button>
+    <van-button type="primary" color="#e8e8e8" block class="title" style="background-color: #dce2e7"> 记录查询 </van-button>
 
     <!-- 轮播图 -->
     <!-- <van-swipe class="my-swipe" :autoplay="2000" indicator-color="white">
@@ -108,7 +108,7 @@
     </van-popup>
 
     <!-- 月份查询详细列表 -->
-    <van-collapse v-model="activeMonthNames" v-if="selectMonth" style="padding-bottom: 1.12rem">
+    <van-collapse v-model="activeMonthNames" v-if="selectMonth">
       <van-collapse-item icon="shop-o" v-for="(value, key) in monthDatas" :index="key">
         <template #title>
           <div style="display: flex; justify-content: space-between; align-items: center; vertical-align: bottom">
@@ -135,7 +135,7 @@
     </van-collapse>
 
     <!-- 按类别查询 -->
-    <van-cell title="按类别查询" :value="typeValue" @click="isTypeShow = true" is-link />
+    <van-cell title="按类别查询" :value="typeValue" @click="isTypeShow = true" is-link style="padding-bottom: 1.12rem" />
 
     <!-- 类别查询详细列表 -->
     <van-collapse v-model="activeMonthNames" v-if="typeValue" style="padding-bottom: 1.12rem">
@@ -179,23 +179,23 @@
           <van-field v-model="up_money" name="金额" label="金额:" :rules="[{ required: true, message: '请填写金额' }]" />
           <van-field v-model="up_comment" name="备注" label="备注:" :rules="[{ required: true, message: '请填写备注' }]" />
           <!-- 类别选择 支出 -->
-          <van-radio-group v-if="incomeState == 0" v-model="up_type" direction="horizontal" style="padding: 0 0.32rem; font-size: 0.32rem">
-            <van-radio name="0" icon-size="0.28rem" checked-color="#de3126"><span style="font-size: 0.28rem">服饰鞋帽</span> </van-radio>
-            <van-radio name="1" icon-size="0.28rem" checked-color="#de3126"><span style="font-size: 0.28rem">交通出行</span></van-radio>
-            <van-radio name="2" icon-size="0.28rem" checked-color="#de3126"><span style="font-size: 0.28rem">食物小吃</span></van-radio>
-            <van-radio name="3" icon-size="0.28rem" checked-color="#de3126"><span style="font-size: 0.28rem">学习提升</span></van-radio>
-            <van-radio name="4" icon-size="0.28rem" checked-color="#de3126"><span style="font-size: 0.28rem">外出旅行</span></van-radio>
-            <van-radio name="5" icon-size="0.28rem" checked-color="#de3126"><span style="font-size: 0.28rem">娱乐消费</span></van-radio>
-            <van-radio name="6" icon-size="0.28rem" checked-color="#de3126"><span style="font-size: 0.28rem">其他项目</span></van-radio>
+          <van-radio-group v-if="incomeState == 0" v-model="up_type" direction="horizontal" style="font-family: consolas; padding: 0 0.32rem; font-size: 0.32rem">
+            <van-radio name="0" icon-size="0.28rem" checked-color="#de3126"><span style="font-size: 0.26rem">服饰鞋帽</span> </van-radio>
+            <van-radio name="1" icon-size="0.28rem" checked-color="#de3126"><span style="font-size: 0.26rem">交通出行</span></van-radio>
+            <van-radio name="2" icon-size="0.28rem" checked-color="#de3126"><span style="font-size: 0.26rem">食物小吃</span></van-radio>
+            <van-radio name="3" icon-size="0.28rem" checked-color="#de3126"><span style="font-size: 0.26rem">学习提升</span></van-radio>
+            <van-radio name="4" icon-size="0.28rem" checked-color="#de3126"><span style="font-size: 0.26rem">外出旅行</span></van-radio>
+            <van-radio name="5" icon-size="0.28rem" checked-color="#de3126"><span style="font-size: 0.26rem">娱乐消费</span></van-radio>
+            <van-radio name="6" icon-size="0.28rem" checked-color="#de3126"><span style="font-size: 0.26rem">其他项目</span></van-radio>
           </van-radio-group>
           <!-- 类别选择 收入 -->
-          <van-radio-group v-else v-model="up_type" direction="horizontal" style="padding: 0 0.32rem; font-size: 0.32rem">
-            <van-radio name="0" icon-size="0.28rem" checked-color="#52d181"><span style="font-size: 0.28rem">工资薪金</span></van-radio>
-            <van-radio name="1" icon-size="0.28rem" checked-color="#52d181"><span style="font-size: 0.28rem">奖金提成</span></van-radio>
-            <van-radio name="2" icon-size="0.28rem" checked-color="#52d181"><span style="font-size: 0.28rem">偶然所得</span></van-radio>
-            <van-radio name="3" icon-size="0.28rem" checked-color="#52d181"><span style="font-size: 0.28rem">投资收益</span></van-radio>
-            <van-radio name="4" icon-size="0.28rem" checked-color="#52d181"><span style="font-size: 0.28rem">劳务报酬</span></van-radio>
-            <van-radio name="5" icon-size="0.28rem" checked-color="#52d181"><span style="font-size: 0.28rem">其他项目</span></van-radio>
+          <van-radio-group v-else v-model="up_type" direction="horizontal" style="font-family: consolas; padding: 0 0.32rem; font-size: 0.32rem">
+            <van-radio name="0" icon-size="0.28rem" checked-color="#52d181"><span style="font-size: 0.26rem">工资薪金</span></van-radio>
+            <van-radio name="1" icon-size="0.28rem" checked-color="#52d181"><span style="font-size: 0.26rem">奖金提成</span></van-radio>
+            <van-radio name="2" icon-size="0.28rem" checked-color="#52d181"><span style="font-size: 0.26rem">偶然所得</span></van-radio>
+            <van-radio name="3" icon-size="0.28rem" checked-color="#52d181"><span style="font-size: 0.26rem">投资收益</span></van-radio>
+            <van-radio name="4" icon-size="0.28rem" checked-color="#52d181"><span style="font-size: 0.26rem">劳务报酬</span></van-radio>
+            <van-radio name="5" icon-size="0.28rem" checked-color="#52d181"><span style="font-size: 0.26rem">其他项目</span></van-radio>
           </van-radio-group>
 
           <div style="margin: 0.32rem">
