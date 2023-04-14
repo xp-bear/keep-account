@@ -180,22 +180,22 @@
           <van-field v-model="up_comment" name="备注" label="备注:" :rules="[{ required: true, message: '请填写备注' }]" />
           <!-- 类别选择 支出 -->
           <van-radio-group v-if="incomeState == 0" v-model="up_type" direction="horizontal" style="padding: 0 0.32rem; font-size: 0.32rem">
-            <van-radio name="0" icon-size="0.32rem" checked-color="#de3126">服饰鞋帽</van-radio>
-            <van-radio name="1" icon-size="0.32rem" checked-color="#de3126">交通出行</van-radio>
-            <van-radio name="2" icon-size="0.32rem" checked-color="#de3126">食物小吃</van-radio>
-            <van-radio name="3" icon-size="0.32rem" checked-color="#de3126">学习提升</van-radio>
-            <van-radio name="4" icon-size="0.32rem" checked-color="#de3126">外出旅行</van-radio>
-            <van-radio name="5" icon-size="0.32rem" checked-color="#de3126">娱乐消费</van-radio>
-            <van-radio name="6" icon-size="0.32rem" checked-color="#de3126">其他项目</van-radio>
+            <van-radio name="0" icon-size="0.28rem" checked-color="#de3126"><span style="font-size: 0.28rem">服饰鞋帽</span> </van-radio>
+            <van-radio name="1" icon-size="0.28rem" checked-color="#de3126"><span style="font-size: 0.28rem">交通出行</span></van-radio>
+            <van-radio name="2" icon-size="0.28rem" checked-color="#de3126"><span style="font-size: 0.28rem">食物小吃</span></van-radio>
+            <van-radio name="3" icon-size="0.28rem" checked-color="#de3126"><span style="font-size: 0.28rem">学习提升</span></van-radio>
+            <van-radio name="4" icon-size="0.28rem" checked-color="#de3126"><span style="font-size: 0.28rem">外出旅行</span></van-radio>
+            <van-radio name="5" icon-size="0.28rem" checked-color="#de3126"><span style="font-size: 0.28rem">娱乐消费</span></van-radio>
+            <van-radio name="6" icon-size="0.28rem" checked-color="#de3126"><span style="font-size: 0.28rem">其他项目</span></van-radio>
           </van-radio-group>
           <!-- 类别选择 收入 -->
           <van-radio-group v-else v-model="up_type" direction="horizontal" style="padding: 0 0.32rem; font-size: 0.32rem">
-            <van-radio name="0" icon-size="0.32rem" checked-color="#52d181">工资薪金</van-radio>
-            <van-radio name="1" icon-size="0.32rem" checked-color="#52d181">奖金提成</van-radio>
-            <van-radio name="2" icon-size="0.32rem" checked-color="#52d181">偶然所得</van-radio>
-            <van-radio name="3" icon-size="0.32rem" checked-color="#52d181">投资收益</van-radio>
-            <van-radio name="4" icon-size="0.32rem" checked-color="#52d181">劳务报酬</van-radio>
-            <van-radio name="5" icon-size="0.32rem" checked-color="#52d181">其他项目</van-radio>
+            <van-radio name="0" icon-size="0.28rem" checked-color="#52d181"><span style="font-size: 0.28rem">工资薪金</span></van-radio>
+            <van-radio name="1" icon-size="0.28rem" checked-color="#52d181"><span style="font-size: 0.28rem">奖金提成</span></van-radio>
+            <van-radio name="2" icon-size="0.28rem" checked-color="#52d181"><span style="font-size: 0.28rem">偶然所得</span></van-radio>
+            <van-radio name="3" icon-size="0.28rem" checked-color="#52d181"><span style="font-size: 0.28rem">投资收益</span></van-radio>
+            <van-radio name="4" icon-size="0.28rem" checked-color="#52d181"><span style="font-size: 0.28rem">劳务报酬</span></van-radio>
+            <van-radio name="5" icon-size="0.28rem" checked-color="#52d181"><span style="font-size: 0.28rem">其他项目</span></van-radio>
           </van-radio-group>
 
           <div style="margin: 0.32rem">
@@ -293,6 +293,12 @@ export default {
   mounted() {
     this.getInitData();
     this.getYearData();
+
+    // 禁止选中事件
+    // 如果是想禁用长按弹出菜单, 用js的话,阻止默认事件
+    window.addEventListener("contextmenu", function (e) {
+      e.preventDefault();
+    });
   },
   methods: {
     // 类别查询确认
@@ -306,18 +312,23 @@ export default {
 
     getTypeData(year, month, tag) {
       // 请求类别月份数据
-      this.$axios.get(`/account/searchmonth?monthdata=${year}/${month}&flag=${this.incomeState}&tag=${tag}`).then((res) => {
-        this.typeDatas = res.data;
+      this.$axios
+        .get(`/account/searchmonth?monthdata=${year}/${month}&flag=${this.incomeState}&tag=${tag}`)
+        .then((res) => {
+          this.typeDatas = res.data;
 
-        for (let key in this.typeDatas) {
-          let totalMoney = 0;
-          this.typeDatas[key].forEach((item) => {
-            totalMoney += +item.record_money;
-          });
-          this.typeDatas[key].push(totalMoney);
-        }
-        // console.log(this.typeDatas);
-      });
+          for (let key in this.typeDatas) {
+            let totalMoney = 0;
+            this.typeDatas[key].forEach((item) => {
+              totalMoney += +item.record_money;
+            });
+            this.typeDatas[key].push(totalMoney);
+          }
+          // console.log(this.typeDatas);
+        })
+        .catch((err) => {
+          // console.log(err);
+        });
     },
     //类别查询取消
     onCancelTag() {
@@ -326,28 +337,38 @@ export default {
     },
     // 修改数据的对话框点击确认按钮
     onSubmit() {
-      this.showPopup = false; //关闭对话框
-      this.$axios
-        .post("/account/update", {
-          record_state: this.incomeState,
-          record_id: this.up_id,
-          record_comment: this.up_comment,
-          record_money: this.up_money,
-          record_tag: +this.up_type,
+      this.$dialog
+        .confirm({
+          title: "弹窗提示",
+          message: "是否确认修改相关数据?",
         })
-        .then((res) => {
-          // 修改数据
-          this.$toast.success({
-            message: "修改成功",
-            forbidClick: true,
-            duration: "1000",
-          });
-          // 请求初始数据
-          this.totalMoney = 0;
-          this.getInitData();
-          this.getYearData();
-          this.getMonthDatas(); //初始月分数据
-          this.getTypeData(...this.typeArr); //初始类别数据
+        .then(() => {
+          this.showPopup = false; //关闭对话框
+          this.$axios
+            .post("/account/update", {
+              record_state: this.incomeState,
+              record_id: this.up_id,
+              record_comment: this.up_comment,
+              record_money: this.up_money,
+              record_tag: +this.up_type,
+            })
+            .then((res) => {
+              // 修改数据
+              this.$toast.success({
+                message: "修改成功",
+                forbidClick: true,
+                duration: "1000",
+              });
+              // 请求初始数据
+              this.totalMoney = 0;
+              this.getInitData();
+              this.getYearData();
+              this.getMonthDatas(); //初始月分数据
+              this.getTypeData(...this.typeArr); //初始类别数据
+            });
+        })
+        .catch(() => {
+          // on cancel
         });
     },
 
@@ -404,7 +425,7 @@ export default {
       this.up_comment = item.record_comment;
       this.up_id = item.record_id;
 
-      console.log("长按", this.up_type);
+      // console.log("长按", this.up_type);
     },
     //如果手指有移动，则取消所有事件，此时说明用户只是要移动而不是长按
     gtouchmove() {
@@ -573,6 +594,20 @@ export default {
 </script>
 <style lang="less" scoped>
 .Tag {
+  /*如果是禁用长按选择文字功能，用css*/
+  * {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  // 这是input
+  input {
+    -webkit-user-select: auto; /*webkit浏览器*/
+  }
+  // ---------------------------------------
   // 轮播图
   .my-swipe .van-swipe-item {
     color: #fff;

@@ -26,6 +26,7 @@ import { Empty } from "vant";
 import { Picker } from "vant";
 import { Form } from "vant";
 import { RadioGroup, Radio } from "vant";
+import { Dialog } from "vant";
 
 Vue.use(Radio);
 Vue.use(RadioGroup);
@@ -54,6 +55,7 @@ Vue.use(Button);
 Vue.prototype.$dayjs = dayjs;
 Vue.prototype.$toast = Toast;
 Vue.prototype.$axios = axios;
+Vue.prototype.$dialog = Dialog;
 
 dayjs.extend(isLeapYear); // use plugin
 dayjs.locale("zh-cn"); // use locale
