@@ -199,10 +199,11 @@ export default {
   .footer {
     display: flex;
     justify-content: center;
-    position: absolute;
-    bottom: 0.6rem;
-    left: 50%;
-    transform: translateX(-50%);
+    // position: absolute;
+    // bottom: 0.6rem;
+    // left: 50%;
+    // transform: translateX(-50%);
+    margin-top: 0.5rem;
     div {
       width: 1.08rem;
       height: 1.08rem;

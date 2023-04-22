@@ -208,14 +208,16 @@ export default {
     }
   }
   .logout {
-    width: 6.9rem;
-    height: 0.7rem;
-    background: #f15c5c;
-    margin: 0 auto;
-    border-radius: 0.4rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 6.9rem;
+    height: 0.7rem;
+    margin-top: 0.24rem !important;
+    background: #f15c5c;
+    overflow: hidden;
+    margin: 0 auto;
+    border-radius: 0.4rem;
     color: #fff;
     box-shadow: 0 0 0.06rem #ccc;
     border: 0;
