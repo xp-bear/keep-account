@@ -13,17 +13,17 @@
       <div class="user">
         <div class="userone" style="border-bottom: 0.01rem solid #cccccc60">
           <img src="http://cdn.xxoutman.cn/user-1680953168370.png?1680953168599" alt="" />
-          <input type="text" placeholder="用户名" />
+          <input v-model="username" type="text" placeholder="用户名" />
         </div>
         <div class="userone">
           <img src="http://cdn.xxoutman.cn/lock-1680953833142.png?1680953833351" alt="" />
-          <input type="password" placeholder="密码" />
+          <input v-model="password" type="password" placeholder="密码" />
         </div>
       </div>
 
       <div class="info">
         <span @click="toRegister">没有账号,去注册</span>
-        <button>登录</button>
+        <button @click="Login">登录</button>
       </div>
       <!-- 脚部区域 -->
       <div class="footer">
@@ -45,12 +45,49 @@
 export default {
   name: "Login",
   data() {
-    return {};
+    return {
+      username: "", //用户名。
+      password: "", //密码。
+    };
   },
   methods: {
     // 跳转去注册
     toRegister() {
       this.$router.push({ path: "/register" });
+    },
+    // 点击登录按钮。
+    Login() {
+      // 登陆盼空校验。
+      if (this.username.length <= 0 || this.password.length <= 0) {
+        return this.$notify({
+          message: "用户名或密码不可以为空",
+          duration: 1000,
+        });
+      }
+      // 长度校验
+      if (this.password.length < 6) {
+        return this.$notify({
+          message: "密码的长度至少是6位",
+          duration: 1000,
+        });
+      }
+
+      // 发起请求
+      this.$axios.post("/user/login", { username: this.username, password: this.password }).then((res) => {
+        // console.log(res.data);
+        if (res.data.code == 200) {
+          // 保存数据到本地
+          localStorage.setItem("token", res.data.token);
+          localStorage.setItem("UserInfo", JSON.stringify(res.data.result));
+          // 跳转到首页tag标签
+          setTimeout(() => {
+            this.$router.push({ path: "/tag" });
+          }, 1000);
+          return this.$notify({ type: "success", message: res.data.message, duration: 1000 });
+        } else {
+          return this.$notify({ type: "danger", message: res.data.message, duration: 1000 });
+        }
+      });
     },
   },
 };

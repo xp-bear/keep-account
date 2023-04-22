@@ -99,9 +99,13 @@ export default {
       minDate: new Date(), //最小选择的时间
       incomeState: 0, //当前收入与支出的状态 0-支出  1-收入
       tag_index: 0, //(收入与支出)标签标志位 0-服饰鞋帽 1-交通出行 2-食物小吃 3-学习提升 4-外出旅行 5-娱乐消费 6-其他项目
+      userinfo: "", //个人用户信息。
     };
   },
   mounted() {
+    // 获取当前用户所属ID。
+    this.userinfo = JSON.parse(localStorage.getItem("UserInfo")) || {};
+
     let time = new Date();
     // 获取年
     let year = time.getFullYear();
@@ -173,6 +177,7 @@ export default {
             record_money: this.value,
             record_date: this.dateMonth,
             record_time: this.currentTime,
+            owner_id: this.userinfo.user_id,
           })
           .then((res) => {
             // 清空数据

@@ -7,8 +7,8 @@
       <!-- 头像区域 -->
       <div class="avatar">
         <div class="title">
-          <img src="http://cdn.xxoutman.cn/logo.jpg" alt="" />
-          <span>想走过亚洲的熊</span>
+          <img :src="userinfo.avatar" alt="" />
+          <span>{{ userinfo.username }}</span>
           <van-icon name="arrow" color="#fff" size="16" style="float: right" />
         </div>
 
@@ -57,6 +57,9 @@
       <van-cell title="邀请好友" size="24" icon="http://cdn.xxoutman.cn/t4-1679812701993.png?1679812702139" is-link />
       <van-cell title="设置" size="24" icon="http://cdn.xxoutman.cn/t5-1679812710005.png?1679812710143" is-link />
     </div>
+
+    <!-- 退出登录 -->
+    <button class="logout" @click="logout">退出登录</button>
   </div>
 </template>
 
@@ -68,21 +71,42 @@ export default {
     return {
       userDataObj: null, //首页数据
       totalDay: 0, //记账天数
+      userinfo: "", //用户个人信息数据
     };
   },
   mounted() {
+    // 获取用户信息数据
+    this.userinfo = JSON.parse(localStorage.getItem("UserInfo")) || {};
+    // console.log(this.userinfo);
     // 请求天数数据接口
     // { totalCount:"xx" , totalMoney:'xx' }
-    this.$axios.get("/account/searchuser").then((res) => {
+    this.$axios.get(`/account/searchuser?ownerid=${this.userinfo.user_id}`).then((res) => {
       this.userDataObj = res.data[0];
     });
 
     // 请求天数接口
-    this.$axios.get("/account/searchtotalday").then((res) => {
+    this.$axios.get(`/account/searchtotalday?ownerid=${this.userinfo.user_id}`).then((res) => {
       this.totalDay = res.data.totalDay;
     });
   },
-  methods: { formatMoneyTwo },
+  methods: {
+    formatMoneyTwo,
+    // 退出登录
+    logout() {
+      this.$dialog
+        .confirm({
+          title: "退出登录",
+          message: "是否清除登录数据",
+        })
+        .then(() => {
+          localStorage.clear(); //清空本地缓存。
+          this.$router.push({ path: "/login" });
+        })
+        .catch(() => {
+          // on cancel
+        });
+    },
+  },
 };
 </script>
 
@@ -182,6 +206,19 @@ export default {
       align-items: center;
       margin-right: 0.1rem;
     }
+  }
+  .logout {
+    width: 6.9rem;
+    height: 0.7rem;
+    background: #f15c5c;
+    margin: 0 auto;
+    border-radius: 0.4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    box-shadow: 0 0 0.06rem #ccc;
+    border: 0;
   }
 }
 </style>

@@ -27,6 +27,7 @@ import { Picker } from "vant";
 import { Form } from "vant";
 import { RadioGroup, Radio } from "vant";
 import { Dialog } from "vant";
+import { Notify } from "vant";
 
 Vue.use(Radio);
 Vue.use(RadioGroup);
@@ -52,10 +53,13 @@ Vue.use(Tag);
 Vue.use(Field);
 Vue.use(Button);
 
-Vue.prototype.$dayjs = dayjs;
+// 全局注册
+Vue.prototype.$notify = Notify;
 Vue.prototype.$toast = Toast;
 Vue.prototype.$axios = axios;
 Vue.prototype.$dialog = Dialog;
+
+Vue.prototype.$dayjs = dayjs;
 
 dayjs.extend(isLeapYear); // use plugin
 dayjs.locale("zh-cn"); // use locale
@@ -67,7 +71,7 @@ Vue.prototype.$echarts = echarts;
 if (process.env.NODE_ENV == "development") {
   // 开发环境
   //配置默认IP地址
-  axios.defaults.baseURL = "http://150.158.21.251:9999";
+  axios.defaults.baseURL = "http://127.0.0.1:9999";
 } else {
   // 打包环境
   axios.defaults.baseURL = "http://150.158.21.251:9999";

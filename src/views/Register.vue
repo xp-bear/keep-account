@@ -9,17 +9,17 @@
 
       <div class="userone">
         <img src="http://cdn.xxoutman.cn/user-1680953168370.png?1680953168599" alt="" />
-        <input type="text" placeholder="用户名" />
+        <input v-model="username" type="text" placeholder="用户名" />
       </div>
       <div class="userone">
         <img src="http://cdn.xxoutman.cn/email-1681183869266.png?1681183869533" alt="" />
-        <input type="text" placeholder="邮箱" />
+        <input v-model="email" type="text" placeholder="邮箱" />
       </div>
       <div class="userone">
         <img src="http://cdn.xxoutman.cn/lock-1680953833142.png?1680953833351" alt="" />
-        <input type="text" placeholder="密码" />
+        <input v-model="password" type="password" placeholder="密码" />
       </div>
-      <button>注册</button>
+      <button @click="Register">注册</button>
       <span @click="toLogin">已有账号,去登录</span>
     </div>
   </div>
@@ -29,12 +29,63 @@
 export default {
   name: "Register",
   data() {
-    return {};
+    return {
+      username: "", //用户名。
+      password: "", //密码。
+      email: "", //邮箱
+    };
   },
   methods: {
     // 跳转登录
     toLogin() {
       this.$router.push({ path: "/login" });
+    },
+    // 注册用户
+    Register() {
+      // 判空校验
+      if (this.username.length <= 0 || this.password.length <= 0 || this.email.length <= 0) {
+        return this.$notify({
+          message: "用户名、邮箱或密码不可以为空",
+          duration: 1000,
+        });
+      }
+      // 密码长度校验
+      if (this.password.length < 6) {
+        return this.$notify({
+          message: "密码的长度至少是6位",
+          duration: 1000,
+        });
+      }
+      // 邮箱校验
+      // 使用正则表达式进行校验
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(this.email)) {
+        return this.$notify({
+          message: "邮箱地址格式不正确",
+          duration: 1000,
+        });
+      }
+
+      // 发起请求
+      this.$axios.post("/user/register", { username: this.username, email: this.email, password: this.password }).then((res) => {
+        console.log(res.data);
+        if (res.data.affectedRows == 1) {
+          // 跳转到登录页面
+          setTimeout(() => {
+            this.$router.push({ path: "/login" });
+          }, 1000);
+          return this.$notify({
+            type: "success",
+            message: "注册成功",
+            duration: 1000,
+          });
+        } else {
+          return this.$notify({
+            message: "注册失败",
+            duration: 1000,
+          });
+        }
+      });
     },
   },
 };

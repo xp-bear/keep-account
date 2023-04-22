@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-
+import CryptoJS from "crypto-js";
 Vue.use(VueRouter);
 
 const originalPush = VueRouter.prototype.push;
@@ -50,5 +50,28 @@ const router = new VueRouter({
   routes,
 });
 
+// 路由守卫
+router.beforeEach((to, from, next) => {
+  // 此处进行鉴权操作
+  let token = localStorage.getItem("token") || "";
+  // console.log("我的token值: ", token);
+  // 进行解密操作
+  let decryptedStr = CryptoJS.AES.decrypt(token, "coderxp").toString(CryptoJS.enc.Utf8);
+  // console.log(decryptedStr); //2023/4/29
+  let expires = new Date(decryptedStr); //过期时间
+  let now = new Date(); //现在的时间
+
+  if (!token || expires <= now) {
+    if (to.path === "/login") {
+      next();
+    } else if (to.path === "/register") {
+      next();
+    } else {
+      next("/login");
+    }
+  } else {
+    next();
+  }
+});
 // 路由守卫,判断用户有没有登录
 export default router;

@@ -138,7 +138,7 @@
     <van-cell title="按类别查询" :value="typeValue" @click="isTypeShow = true" is-link />
 
     <!-- 类别查询详细列表 -->
-    <van-collapse v-model="activeMonthNames" v-if="typeValue">
+    <van-collapse v-model="activeTypeNames" v-if="typeValue">
       <van-collapse-item icon="shop-o" v-for="(value, key) in typeDatas" :index="key">
         <template #title>
           <div style="display: flex; justify-content: space-between; align-items: center; vertical-align: bottom">
@@ -220,8 +220,9 @@ export default {
   components: {},
   data() {
     return {
-      activeNames: [0],
-      activeMonthNames: [""],
+      activeNames: [0], //按日期查询，详细列表展示。
+      activeMonthNames: [], //按月份查询，详细列表展示。
+      activeTypeNames: [], //按类别查询，详细列表展示。
       totalMoney: 0, //每一天金额的统计总数.
       datas: [], //每一天的消费查询
       selectDate: "", //选择查询的日期
@@ -290,9 +291,13 @@ export default {
       typeValue: "", //类别数据展示
       typeDatas: {}, //当前月份类别数据
       typeArr: [],
+      userinfo: "", //个人用户对象
     };
   },
   mounted() {
+    // 获取当前用户所属ID。
+    this.userinfo = JSON.parse(localStorage.getItem("UserInfo")) || {};
+    // console.log(this.userinfo);
     this.getInitData();
     this.getYearData();
 
@@ -315,7 +320,7 @@ export default {
     getTypeData(year, month, tag) {
       // 请求类别月份数据
       this.$axios
-        .get(`/account/searchmonth?monthdata=${year}/${month}&flag=${this.incomeState}&tag=${tag}`)
+        .get(`/account/searchmonth?monthdata=${year}/${month}&flag=${this.incomeState}&tag=${tag}&ownerid=${this.userinfo.user_id}`)
         .then((res) => {
           this.typeDatas = res.data;
 
@@ -380,10 +385,10 @@ export default {
     },
     // 请求年度数据
     getYearData() {
-      this.$axios.get(`/account/searchyear?year=${this.yearNumber}&flag=0`).then((res) => {
+      this.$axios.get(`/account/searchyear?year=${this.yearNumber}&flag=0&ownerid=${this.userinfo.user_id}`).then((res) => {
         this.yearPay = res.data[0].total_money;
       });
-      this.$axios.get(`/account/searchyear?year=${this.yearNumber}&flag=1`).then((res) => {
+      this.$axios.get(`/account/searchyear?year=${this.yearNumber}&flag=1&ownerid=${this.userinfo.user_id}`).then((res) => {
         // console.log(res.data);
         this.yaerIncome = res.data[0].total_money;
       });
@@ -393,7 +398,7 @@ export default {
     getInitData() {
       this.selectDate = this.formatDate(new Date());
       // 请求查询的时间
-      this.$axios.get(`/account/searchday?date=${this.selectDate}&flag=${this.incomeState}`).then((res) => {
+      this.$axios.get(`/account/searchday?date=${this.selectDate}&flag=${this.incomeState}&ownerid=${this.userinfo.user_id}`).then((res) => {
         this.datas = res.data;
 
         this.date = this.$dayjs(res.data[0]?.record_create_time).format("YYYY-MM-DD"); //处理时间格式
@@ -482,7 +487,7 @@ export default {
     },
     // 请求查询的月份
     getMonthDatas() {
-      this.$axios.get(`/account/searchmonth?monthdata=${this.selectMonth}&flag=${this.incomeState}`).then((res) => {
+      this.$axios.get(`/account/searchmonth?monthdata=${this.selectMonth}&flag=${this.incomeState}&ownerid=${this.userinfo.user_id}`).then((res) => {
         this.monthDatas = res.data;
 
         for (let key in this.monthDatas) {
@@ -521,9 +526,9 @@ export default {
       this.totalMoney = 0; //总金额重新设置为0
       this.selectDateShow = false;
       this.selectDate = this.formatDate(date);
-      // console.log("确定的时间:", this.selectDate);
+
       // 请求查询的时间
-      this.$axios.get(`/account/searchday?date=${this.selectDate}&flag=${this.incomeState}`).then((res) => {
+      this.$axios.get(`/account/searchday?date=${this.selectDate}&flag=${this.incomeState}&ownerid=${this.userinfo.user_id}`).then((res) => {
         this.datas = res.data;
         // if (this.datas.length <= 0) {
         //   this.activeNames = ["0"];

@@ -98,9 +98,13 @@ export default {
 
       accountNumber: 0, //记账笔数
       accountTotalMoney: 0, //记账总金额
+      userinfo: "", //个人信息
     };
   },
   mounted() {
+    // 获取当前用户所属ID。
+    this.userinfo = JSON.parse(localStorage.getItem("UserInfo")) || {};
+
     // 选择默认的月份
     this.selectMonth = this.$dayjs(new Date()).format("YYYY/MM");
 
@@ -134,7 +138,7 @@ export default {
       this.lineChartX = [];
       this.lineChartY = [];
       // 请求查询的月份
-      this.$axios.get(`/account/searchmonth?monthdata=${this.selectMonth}&flag=${this.incomeState}`).then((res) => {
+      this.$axios.get(`/account/searchmonth?monthdata=${this.selectMonth}&flag=${this.incomeState}&ownerid=${this.userinfo.user_id}`).then((res) => {
         this.monthDatas = res.data;
         // console.log(this.monthDatas);
         let counter = 0; //统计记账笔数
@@ -157,7 +161,7 @@ export default {
 
     // 请求饼图数据
     getPieData() {
-      this.$axios.get(`/account/searchpie?monthdata=${this.selectMonth}&flag=${this.incomeState}`).then((res) => {
+      this.$axios.get(`/account/searchpie?monthdata=${this.selectMonth}&flag=${this.incomeState}&ownerid=${this.userinfo.user_id}`).then((res) => {
         this.pieDatas = res.data;
       });
     },

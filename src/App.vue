@@ -9,6 +9,7 @@
 import Footer from "@/components/Footer.vue";
 export default {
   name: "App",
+  mounted() {},
   components: {
     Footer,
   },
