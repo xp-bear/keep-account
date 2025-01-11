@@ -6,7 +6,7 @@
     <!-- 收入与支出选项 -->
     <div class="income">
       <van-button
-        icon="http://cdn.xxoutman.cn/pay-1679804063180.png?1679804063362"
+        icon="https://xp-cdn-oss.oss-cn-wuhan-lr.aliyuncs.com/cookies/1手续费-1736610464903.png?1736610466761"
         type="primary"
         color="#de3126"
         hairline
@@ -18,7 +18,7 @@
         支出
       </van-button>
       <van-button
-        icon="http://cdn.xxoutman.cn/income-1679804092077.png?1679804092248"
+        icon="https://xp-cdn-oss.oss-cn-wuhan-lr.aliyuncs.com/cookies/总收入-1736610447466.png?1736610450995"
         type="primary"
         color="#52d181"
         hairline
@@ -86,7 +86,7 @@ export default {
     return {
       monthPanelState: false, //默认月份面板没有展开。
       selectMonth: "", //选择的月份 2023/11月
-      minDate: new Date(2023, 0, 1),
+      minDate: new Date(2025, 0, 1),
       maxDate: new Date(2030, 11, 30),
       currentDate: "", //选中的时间格式
       monthDatas: {}, //请求回来的月份数据

@@ -51,11 +51,11 @@
 
     <!-- 单元格区域 -->
     <div class="cell">
-      <van-cell title="账本管理" size="24" icon="http://cdn.xxoutman.cn/t1-1679812424270.png" is-link />
-      <van-cell title="记账提醒" size="24" icon="http://cdn.xxoutman.cn/t2-1679812683959.png?1679812684144" is-link />
-      <van-cell title="预算提醒" size="24" icon="http://cdn.xxoutman.cn/t3-1679812692515.png?1679812692643" is-link />
-      <van-cell title="邀请好友" size="24" icon="http://cdn.xxoutman.cn/t4-1679812701993.png?1679812702139" is-link />
-      <van-cell title="设置" size="24" icon="http://cdn.xxoutman.cn/t5-1679812710005.png?1679812710143" is-link />
+      <van-cell title="账本管理" size="24" icon="https://xp-cdn-oss.oss-cn-wuhan-lr.aliyuncs.com/cookies/引用组件 2-1736614656033.svg?1736614657765" is-link />
+      <van-cell title="记账提醒" size="24" icon="https://xp-cdn-oss.oss-cn-wuhan-lr.aliyuncs.com/cookies/引用组件 2 (1)-1736614562478.svg?1736614566209" is-link />
+      <van-cell title="预算提醒" size="24" icon="https://xp-cdn-oss.oss-cn-wuhan-lr.aliyuncs.com/cookies/引用组件 2 (2)-1736614605414.svg?1736614607455" is-link />
+      <van-cell title="邀请好友" size="24" icon="https://xp-cdn-oss.oss-cn-wuhan-lr.aliyuncs.com/cookies/引用组件 2 (3)-1736614624255.svg?1736614626638" is-link />
+      <van-cell title="设置" size="24" icon="https://xp-cdn-oss.oss-cn-wuhan-lr.aliyuncs.com/cookies/引用组件 2 (4)-1736614640950.svg?1736614642254" is-link />
     </div>
 
     <!-- 退出登录 -->

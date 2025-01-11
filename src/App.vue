@@ -28,23 +28,23 @@ export default {
 // 自定义字体
 @font-face {
   font-family: xp;
-  src: url("http://cdn.xxoutman.cn/two.ttf");
+  src: url("https://xp-cdn-oss.oss-cn-wuhan-lr.aliyuncs.com/common/consolas.ttf");
 }
 
 // 自定义字体
 @font-face {
   font-family: consolas;
-  src: url("http://cdn.xxoutman.cn/one.ttf");
+  src: url("https://xp-cdn-oss.oss-cn-wuhan-lr.aliyuncs.com/common/consolas.ttf");
 }
 
 // 自定义字体
 @font-face {
   font-family: siyuan;
-  src: url("http://cdn.xxoutman.cn/siyuan.ttf");
+  src: url("https://xp-cdn-oss.oss-cn-wuhan-lr.aliyuncs.com/common/consolas.ttf");
 }
 // 自定义字体
 @font-face {
   font-family: digital;
-  src: url("http://cdn.xxoutman.cn/digital.TTF");
+  src: url("https://xp-cdn-oss.oss-cn-wuhan-lr.aliyuncs.com/common/digital.ttf");
 }
 </style>

@@ -48,7 +48,7 @@
     <!-- 标题选项 -->
     <div class="income">
       <van-button
-        icon="http://cdn.xxoutman.cn/pay-1679804063180.png?1679804063362"
+        icon="https://xp-cdn-oss.oss-cn-wuhan-lr.aliyuncs.com/cookies/1手续费-1736610464903.png?1736610466761"
         type="primary"
         color="#de3126"
         hairline
@@ -60,7 +60,7 @@
         支出
       </van-button>
       <van-button
-        icon="http://cdn.xxoutman.cn/income-1679804092077.png?1679804092248"
+        icon="https://xp-cdn-oss.oss-cn-wuhan-lr.aliyuncs.com/cookies/总收入-1736610447466.png?1736610450995"
         type="primary"
         color="#52d181"
         hairline
@@ -98,7 +98,7 @@
       </van-collapse-item>
 
       <!-- 日期空状态显示 -->
-      <van-empty v-else class="custom-image" image="https://xp-cdn-oss.oss-cn-wuhan-lr.aliyuncs.com/cookies/empty-1736581287749.gif?1736581295184" description="该日期暂无记录" />
+      <van-empty v-else class="custom-image" image="network" description="当天暂无数据" />
     </van-collapse>
 
     <!-- 按月份查询 -->
@@ -131,7 +131,7 @@
       </van-collapse-item>
 
       <!-- 空状态显示 -->
-      <van-empty v-if="Object.keys(monthDatas).length === 0" class="custom-image" image="https://xp-cdn-oss.oss-cn-wuhan-lr.aliyuncs.com/cookies/empty-1736581287749.gif?1736581295184" description="未查询到当月数据" />
+      <van-empty v-if="Object.keys(monthDatas).length === 0" class="custom-image" description="当月暂无数据" />
     </van-collapse>
 
     <!-- 按类别查询 -->
@@ -161,7 +161,7 @@
       </van-collapse-item>
 
       <!-- 空状态显示 -->
-      <van-empty v-if="Object.keys(typeDatas).length === 0" class="custom-image" image="https://xp-cdn-oss.oss-cn-wuhan-lr.aliyuncs.com/cookies/empty-1736581287749.gif?1736581295184" description="该类别未查询到数据" />
+      <van-empty v-if="Object.keys(typeDatas).length === 0" class="custom-image" image="search" description="类目暂无数据" />
     </van-collapse>
 
     <!-- 底部站位div盒子 -->
@@ -176,7 +176,7 @@
         <div v-show="incomeState == 0" style="text-align: center; padding-top: 0.2rem; font-family: consolas; font-weight: 700; color: red">支出详情</div>
         <div v-show="incomeState == 1" style="text-align: center; padding-top: 0.2rem; font-family: consolas; font-weight: 700; color: green">收入详情</div>
         <van-form @submit="onSubmit">
-          <van-field v-model="up_date" name="日期" label="日期:" :rules="[{ required: true, message: '请填写日期' }]" />
+          <van-field v-model="up_date" name="时间" label="时间:" :rules="[{ required: true, message: '请填写时间' }]" />
           <!-- <van-field v-model="up_type" name="类别" label="类别:" :rules="[{ required: true, message: '请填写类别' }]" /> -->
           <van-field v-model="up_money" name="金额" label="金额:" :rules="[{ required: true, message: '请填写金额' }]" />
           <van-field v-model="up_comment" name="备注" label="备注:" :rules="[{ required: true, message: '请填写备注' }]" />
@@ -229,7 +229,7 @@ export default {
       selectDateShow: false, //是否展示日历面板
       incomeState: 0, //收入与支出状态 0-支出 1-收入
       // 月份
-      minDate: new Date(2023, 0, 1),
+      minDate: new Date(2025, 0, 1),
       maxDate: new Date(2030, 11, 30),
       // 日期的minData
       dayMinData: new Date(this.$dayjs(new Date()).format("YYYY"), +this.$dayjs(new Date()).format("MM") - 3, this.$dayjs(new Date()).format("DD")),
@@ -264,12 +264,12 @@ export default {
         },
         // 第二列
         {
-          values: ["2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"],
+          values: ["2024", "2025", "2026", "2027", "2028", "2029", "2030"],
           defaultIndex: 1,
         },
         {
           values: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
-          defaultIndex: 5,
+          defaultIndex: 1,
         },
       ],
       incomeColumns: [
@@ -280,7 +280,7 @@ export default {
         },
         // 第二列
         {
-          values: ["2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"],
+          values: ["2024", "2025", "2026", "2027", "2028", "2029", "2030"],
           defaultIndex: 1,
         },
         {
@@ -350,6 +350,8 @@ export default {
           message: "是否确认修改相关数据?",
         })
         .then(() => {
+          // console.log(this.up_date);
+
           this.showPopup = false; //关闭对话框
           this.$axios
             .post("/account/update", {
@@ -358,8 +360,11 @@ export default {
               record_comment: this.up_comment,
               record_money: this.up_money,
               record_tag: +this.up_type,
+              record_time: this.up_date,
             })
             .then((res) => {
+              // console.log(res);
+
               // 修改数据
               this.$toast.success({
                 message: "修改成功",
@@ -425,14 +430,14 @@ export default {
       // 打开弹出层
       this.showPopup = true;
 
-      // 进行赋值操作
-      this.up_date = this.$dayjs(item.record_create_time).format("YYYY-MM-DD") + " " + item.record_time;
+      // 进行赋值操作 this.$dayjs(item.record_create_time).format("YYYY-MM-DD") + " " +
+      this.up_date = item.record_time;
       this.up_type = item.record_tag + "";
       this.up_money = item.record_money;
       this.up_comment = item.record_comment;
       this.up_id = item.record_id;
 
-      // console.log("长按", this.up_type);
+      // console.log("长按", this.up_date);
     },
     //如果手指有移动，则取消所有事件，此时说明用户只是要移动而不是长按
     gtouchmove() {
