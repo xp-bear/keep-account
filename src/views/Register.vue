@@ -8,15 +8,15 @@
       <div class="title">注册</div>
 
       <div class="userone">
-        <img src="http://cdn.xxoutman.cn/user-1680953168370.png?1680953168599" alt="" />
+        <img src="https://xp-cdn-oss.oss-cn-wuhan-lr.aliyuncs.com/cookies/icon 32px_light_user-1736580472144.svg?1736580502555" alt="" />
         <input v-model="username" type="text" placeholder="用户名" />
       </div>
       <div class="userone">
-        <img src="http://cdn.xxoutman.cn/email-1681183869266.png?1681183869533" alt="" />
+        <img src="https://xp-cdn-oss.oss-cn-wuhan-lr.aliyuncs.com/cookies/icon 32px_light_email.svg?1736580804416" alt="" />
         <input v-model="email" type="text" placeholder="邮箱" />
       </div>
       <div class="userone">
-        <img src="http://cdn.xxoutman.cn/lock-1680953833142.png?1680953833351" alt="" />
+        <img src="https://xp-cdn-oss.oss-cn-wuhan-lr.aliyuncs.com/cookies/icon 32px_light_password.svg?1736580557363" alt="" />
         <input v-model="password" type="password" placeholder="密码" />
       </div>
       <button @click="Register">注册</button>
@@ -107,7 +107,7 @@ export default {
     width: 5.72rem;
     height: 5.72rem;
     margin: 0.4rem auto 0;
-    background: url("http://cdn.xxoutman.cn/peopele-1681090555068.png?1681090555473");
+    background: url("https://xp-cdn-oss.oss-cn-wuhan-lr.aliyuncs.com/cookies/编组-1736580714607.svg?1736580717238");
     background-size: cover;
   }
   .title {

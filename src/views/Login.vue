@@ -1,10 +1,10 @@
 <template>
   <div class="Login">
     <div class="top">
-      <img class="clock" src="http://cdn.xxoutman.cn/clock-1680950517610.png?1680950517914" alt="" style="width: 1.28rem; height: 1.28rem" />
-      <img class="nan" src="http://cdn.xxoutman.cn/nanzhen-1680950542391.png?1680950542677" alt="" style="width: 2.56rem; height: 2.56rem" />
-      <img class="zhang" src="http://cdn.xxoutman.cn/image-1680950576709.png?1680950576873" alt="" style="width: 3.44rem; height: 3.44rem" />
-      <img class="star" src="http://cdn.xxoutman.cn/star-1680950559746.png?1680950559931" alt="" style="width: 3.66rem; height: 3.94rem" />
+      <img class="clock" src="https://xp-cdn-oss.oss-cn-wuhan-lr.aliyuncs.com/cookies/clock.svg?1736580309355" alt="" style="width: 1.28rem; height: 1.28rem" />
+      <img class="nan" src="https://xp-cdn-oss.oss-cn-wuhan-lr.aliyuncs.com/cookies/nan-1736580346958.svg?1736580348586" alt="" style="width: 2.56rem; height: 2.56rem" />
+      <img class="zhang" src="https://xp-cdn-oss.oss-cn-wuhan-lr.aliyuncs.com/cookies/illustration_other.svg?1736580383951" alt="" style="width: 3.44rem; height: 3.44rem" />
+      <img class="star" src="https://xp-cdn-oss.oss-cn-wuhan-lr.aliyuncs.com/cookies/star-1736580244109.svg?1736580251688" alt="" style="width: 3.66rem; height: 3.94rem" />
     </div>
     <!-- 内容区域 -->
     <div class="content">
@@ -12,11 +12,11 @@
       <!-- 登录/注册框 -->
       <div class="user">
         <div class="userone" style="border-bottom: 0.01rem solid #cccccc60">
-          <img src="http://cdn.xxoutman.cn/user-1680953168370.png?1680953168599" alt="" />
+          <img src="https://xp-cdn-oss.oss-cn-wuhan-lr.aliyuncs.com/cookies/icon 32px_light_user-1736580472144.svg?1736580502555" alt="" />
           <input v-model="username" type="text" placeholder="用户名" />
         </div>
         <div class="userone">
-          <img src="http://cdn.xxoutman.cn/lock-1680953833142.png?1680953833351" alt="" />
+          <img src="https://xp-cdn-oss.oss-cn-wuhan-lr.aliyuncs.com/cookies/icon 32px_light_password.svg?1736580557363" alt="" />
           <input v-model="password" type="password" placeholder="密码" />
         </div>
       </div>

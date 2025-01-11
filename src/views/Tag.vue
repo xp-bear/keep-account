@@ -98,7 +98,7 @@
       </van-collapse-item>
 
       <!-- 日期空状态显示 -->
-      <van-empty v-else class="custom-image" image="http://cdn.xxoutman.cn/empty-1680012688890.gif" description="该日期暂无记录" />
+      <van-empty v-else class="custom-image" image="https://xp-cdn-oss.oss-cn-wuhan-lr.aliyuncs.com/cookies/empty-1736581287749.gif?1736581295184" description="该日期暂无记录" />
     </van-collapse>
 
     <!-- 按月份查询 -->
@@ -131,7 +131,7 @@
       </van-collapse-item>
 
       <!-- 空状态显示 -->
-      <van-empty v-if="Object.keys(monthDatas).length === 0" class="custom-image" image="http://cdn.xxoutman.cn/empty-1680012743090.gif" description="未查询到当月数据" />
+      <van-empty v-if="Object.keys(monthDatas).length === 0" class="custom-image" image="https://xp-cdn-oss.oss-cn-wuhan-lr.aliyuncs.com/cookies/empty-1736581287749.gif?1736581295184" description="未查询到当月数据" />
     </van-collapse>
 
     <!-- 按类别查询 -->
@@ -161,7 +161,7 @@
       </van-collapse-item>
 
       <!-- 空状态显示 -->
-      <van-empty v-if="Object.keys(typeDatas).length === 0" class="custom-image" image="http://cdn.xxoutman.cn/empty-1680775619747.gif?1680775620066" description="该类别未查询到数据" />
+      <van-empty v-if="Object.keys(typeDatas).length === 0" class="custom-image" image="https://xp-cdn-oss.oss-cn-wuhan-lr.aliyuncs.com/cookies/empty-1736581287749.gif?1736581295184" description="该类别未查询到数据" />
     </van-collapse>
 
     <!-- 底部站位div盒子 -->
