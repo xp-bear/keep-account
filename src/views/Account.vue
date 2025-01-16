@@ -105,7 +105,7 @@ export default {
   },
   mounted() {
     // 首次加载打开金额小键盘。
-    // this.money_show = true;
+    this.money_show = true;
 
     // 获取当前用户所属ID。
     this.userinfo = JSON.parse(localStorage.getItem("UserInfo")) || {};
