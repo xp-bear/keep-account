@@ -1,7 +1,7 @@
 <template>
   <div class="User">
     <!-- 头部标题 -->
-    <van-button type="primary" color="#e8e8e8" block class="title">个人信息</van-button>
+    <!-- <van-button type="primary" color="#e8e8e8" block class="title">个人信息</van-button> -->
     <!-- 头部背景区域 -->
     <div class="bg">
       <!-- 头像区域 -->

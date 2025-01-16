@@ -1,7 +1,7 @@
 <template>
   <div class="Account">
     <!-- 头部标题 -->
-    <van-button type="primary" color="#e8e8e8" block class="title">生活记账</van-button>
+    <!-- <van-button type="primary" color="#e8e8e8" block class="title">生活记账</van-button> -->
 
     <!-- 收入与支出选项 -->
     <div class="income">
@@ -56,7 +56,8 @@
     </van-popup>
 
     <!-- 文本域输入框 autosize自动化高度 -->
-    <van-field v-model="message" label-width="0.8rem" rows="3" label="备注:" type="textarea" maxlength="50" placeholder="请输入备注!" show-word-limit />
+    <!-- <van-field v-model="message" label-width="0.8rem" rows="1" label="备注:" type="textarea" placeholder="请输入备注!" /> -->
+    <van-field v-model="message" rows="1" autosize label="类目备注:" type="textarea" placeholder="请输入备注!" />
     <!--支出 标签选项 -->
     <div class="tags" v-show="incomeState == 0">
       <van-tag type="primary" color="#de3126" size="large" :plain="!Boolean(tag_index == 0)" @click="changeTag(0)">服饰鞋帽</van-tag>
@@ -103,6 +104,9 @@ export default {
     };
   },
   mounted() {
+    // 首次加载打开金额小键盘。
+    // this.money_show = true;
+
     // 获取当前用户所属ID。
     this.userinfo = JSON.parse(localStorage.getItem("UserInfo")) || {};
 

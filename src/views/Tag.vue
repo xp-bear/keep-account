@@ -1,7 +1,7 @@
 <template>
   <div class="Tag">
     <!-- 头部标题 -->
-    <van-button type="primary" color="#e8e8e8" block class="title" style="background-color: #dce2e7"> 记录查询 </van-button>
+    <!-- <van-button type="primary" color="#e8e8e8" block class="title" style="background-color: #dce2e7"> 记录查询 </van-button> -->
 
     <!-- 轮播图 -->
     <!-- <van-swipe class="my-swipe" :autoplay="2000" indicator-color="white">
@@ -662,7 +662,7 @@ export default {
       height: 0.4rem;
       border: 0;
       font-size: 0.4rem;
-      font-family: digital;
+      font-family: xp;
       border-radius: 0.1rem;
       margin-right: 0.1rem;
       text-align: center;

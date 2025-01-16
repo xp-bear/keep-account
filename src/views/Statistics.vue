@@ -1,7 +1,7 @@
 <template>
   <div class="Statistics">
     <!-- 头部标题 -->
-    <van-button type="primary" color="#e8e8e8" block class="title">统计分析</van-button>
+    <!-- <van-button type="primary" color="#e8e8e8" block class="title">统计分析</van-button> -->
 
     <!-- 收入与支出选项 -->
     <div class="income">
