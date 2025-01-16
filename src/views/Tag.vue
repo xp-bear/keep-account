@@ -281,11 +281,11 @@ export default {
         // 第二列
         {
           values: ["2025", "2026", "2027", "2028", "2029", "2030"],
-          defaultIndex: 1,
+          defaultIndex: 0,
         },
         {
           values: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
-          defaultIndex: 1,
+          defaultIndex: 0,
         },
       ],
       typeValue: "", //类别数据展示
@@ -617,6 +617,7 @@ export default {
   }
   // 这是input
   input {
+    user-select: auto;
     -webkit-user-select: auto; /*webkit浏览器*/
   }
   // ---------------------------------------
