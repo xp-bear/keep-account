@@ -105,7 +105,7 @@ export default {
   },
   mounted() {
     // 首次加载打开金额小键盘。
-    this.money_show = true;
+    // this.money_show = true;
 
     // 获取当前用户所属ID。
     this.userinfo = JSON.parse(localStorage.getItem("UserInfo")) || {};
@@ -219,6 +219,9 @@ export default {
 
     // 标签切换
     changeTag(value) {
+      //打开金额小键盘
+      this.money_show = true;
+
       this.tag_index = value;
       // console.log("tag状态: ", this.tag_index);
       //  0-服饰鞋帽 1-交通出行 2-食物小吃 3-学习提升 4-外出旅行 5-娱乐消费 6-其他项目
